@@ -4,5 +4,8 @@
 *.aux
 *.tex.backup
 
+# Vim
+*.swp
+
 # Folder
 Référence/
