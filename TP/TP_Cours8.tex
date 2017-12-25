@@ -1,0 +1,174 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{setspace}
+\usepackage[top=2cm, left=2cm]{geometry}
+\usepackage{graphicx}
+\usepackage{eurosym}
+\usepackage{palatino} % Change font
+\usepackage{hyperref}
+\usepackage{mathtools, bm}
+\usepackage{amssymb, bm}
+\usepackage{color}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tcolorbox}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+% Head
+\fancyhead[L]{}
+\fancyhead[C]{\includegraphics[scale=0.4]{../logo.jpg}}
+\fancyhead[R]{}
+% Footer
+\fancyfoot[C]{}
+% Line
+\renewcommand{\headrulewidth}{0pt}
+
+%opening
+\title{INFO-F408: TP: Computability \& complexity}
+\date{15 novembre, 2017}
+\author{Rémy Detobel}
+
+\newtcolorbox{defBox}{%
+colback=gray!5!white,colframe=black!75!white,fonttitle=\bfseries,
+title=Définition}
+
+\newtcolorbox{theoremeBox}{%
+colback=blue!5!white,colframe=blue!40!white,fonttitle=\bfseries,
+title=Théorème}
+
+\newtcolorbox{importantBox}{%
+colback=red!5!white,colframe=red!65!white,fonttitle=\bfseries,
+title=Important}
+
+
+\begin{document}
+
+\maketitle
+\newpage
+
+\section{Rappel:}
+
+  \subsection{NP}
+    Type de langage tel que 
+    
+  \subsection{NP-Complet}
+    A est NP-Complet $\Leftrightarrow$
+    \begin{align}
+      &A \in NP\\
+      &\forall B \in NP, B \leq_P A
+    \end{align}
+
+  \subsection{Chemin Hamiltonien}
+    \begin{align*}
+      \text{HAMPPATH} = \big\{<G, s, t>:\ &G \text{ est un graphe dirigé et as un chemin Hamiltonien }\\
+      &\text{(passe par tous } v \in G\text{ exactement une fois) depuis } s \text{ à } t \big\}
+    \end{align*}
+    \begin{align*}
+      \text{UHAMPPATH} = \big\{<G, s, t>:\ &G \text{ est un graphe \textbf{non} dirigé et as un chemin Hamiltonien }\\
+      &\text{(passe par tous } v \in G\text{ exactement une fois) depuis } s \text{ à } t \big\}
+    \end{align*}
+    \textbf{Exercice:} montrer que UHAMPATH est NP-Complet\\
+    \textbf{Indice:} prouver que HAMPATH $\leq_P$ UHAMPATH
+    
+    \begin{tikzpicture}
+      \foreach \x in {0,...,6}
+	\node[draw, circle] (s\x) at (\x,0) {};
+      \foreach \x in {0,...,5} {
+	\draw[-> latex] (s\x) to[out=45,in=135] (\x+1-0.15, 0.1);
+	\draw[-> latex] (s\x) to[out=-45,in=225] (\x+1-0.15, -0.1);
+      }
+      
+      \node (xi) at (-0.5, 0) {$x_i$};
+      \node (nxi) at (6.5, 0) {$\bar{x_i}$};
+      
+      \node[draw, circle] (up) at (3, 2) {};
+      \draw[-> latex] (up) to (s0);
+      \draw[-> latex] (up) to (s6);
+      
+      \node[draw, circle] (down) at (3, -2) {};
+      \draw[-> latex] (s0) to (down);
+      \draw[-> latex] (s6) to (down);
+      
+      
+      \draw[-> latex, red] (down) to[out=-135,in=-90] (s0);
+      \draw[-> latex, red] (down) to[out=-45,in=-90] (s6);
+      
+      \draw[-> latex, red] (s0) to[out=80,in=180] (up);
+      \draw[-> latex, red] (s6) to[out=120,in=0] (up);
+      
+      % Cj
+      \node[draw, circle] (cj) at (7, 1.8) {};
+      \node[right] (strCj) at (7.2, 1.8) {$c_j = (x_i \vee ... \vee ..)$};
+      
+      \draw[-> latex, ForestGreen] (cj) to[out=-170,in=70] (s2);
+      \draw[-> latex, ForestGreen] (s3) to[out=60,in=-120] (cj);
+      
+      % Ck
+      \node[draw, circle] (ck) at (7, -1.8) {};
+      \node[right] (strCk) at (7.2, -1.8) {$c_k = (\bar{x_i} \vee ... \vee ..)$};
+      
+      \draw[-> latex, Cyan] (ck) to[out=170,in=-60] (s4);
+      \draw[-> latex, Cyan] (s5) to[out=-60,in=120] (ck);
+    \end{tikzpicture}
+    
+    \begin{align*}
+      ``easy'' &\Leftarrow ``easy''\\
+      A &\leq_P B\\
+      ``hard'' &\Rightarrow ``hard''
+    \end{align*}
+
+    \begin{tikzpicture}
+      \node[draw, circle] (s) at (-1, 0) {s};
+      \node[draw, circle] (u2) at (1, 0) {$u_2$};
+      \node[draw, circle] (u3) at (2.3, 1) {$u_3$};
+      \node[draw, circle] (u4) at (2.5, -3) {$u_4$};
+      \node[draw, circle] (u5) at (3, -1) {$u_5$};
+      \node[draw, circle] (t) at (5, -1) {$t$};
+      
+      \draw[-> latex] (s) to (u2);
+      \draw[-> latex] (s) to (u4);
+      \draw[-> latex] (u2) to (u3);
+      \draw[-> latex] (u2) to (u4);
+      \draw[-> latex] (u5) to (u4);
+      \draw[-> latex] (u4) to[out=10,in=-80] (u5);
+      \draw[-> latex] (t) to (u3);
+      \draw[-> latex] (u2) to[out=0,in=120] (u5);
+      \draw[-> latex] (u5) to[out=170,in=-40] (u2);
+      \draw[-> latex] (t) to (u5);
+      \draw[-> latex] (u3) to[out=0,in=100] (t);
+      \draw[-> latex] (u5) to[out=-20,in=-160] (t);
+    \end{tikzpicture}\\
+    
+    $G'$
+    
+    \begin{tikzpicture}
+      \node (strs) at (0, 0.5) {$s$};
+      \node[draw, circle] (s) at (0, 0) {};
+      
+      \node (stru2i) at (2, 0.5) {$u_2^{in}$};
+      \node[draw, circle] (u2i) at (2, 0) {};
+      
+      \node (stru2m) at (4, 0.5) {$u_2^{mid}$};
+      \node[draw, circle] (u2m) at (4, 0) {};
+      
+      \node (stru2o) at (6, 0.5) {$u_2^{out}$};
+      \node[draw, circle] (u2o) at (6, 0) {};
+      
+      \draw (u2i) -- (u2m) -- (u2o);
+      
+    \end{tikzpicture}
+    
+    \begin{align*}
+      G  &S, u_{i_1}, u_{i_2}, ..., u_{i_{n-2}}, t\\
+      G' &S^{out}, u_{i_1}^{in}, u_{i_1}^{mid}, u_{i_1}^{end}, ..., u^{in}_{i_{n-1}}, u^{mid}_{i_{n-1}}, u^{out}_{i_{n-1}}, t^{in}
+    \end{align*}
+
+    
+
+\end{document}

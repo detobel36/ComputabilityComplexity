@@ -1,0 +1,176 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{setspace}
+\usepackage[top=2cm, left=2cm]{geometry}
+\usepackage{graphicx}
+\usepackage{eurosym}
+\usepackage{palatino} % Change font
+\usepackage{hyperref}
+\usepackage{mathtools, bm}
+\usepackage{amssymb, bm}
+\usepackage{color}
+\usepackage{tcolorbox}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+% Head
+\fancyhead[L]{}
+\fancyhead[C]{\includegraphics[scale=0.4]{../logo.jpg}}
+\fancyhead[R]{}
+% Footer
+\fancyfoot[C]{}
+% Line
+\renewcommand{\headrulewidth}{0pt}
+
+%opening
+\title{INFO-F408: Computability \& complexity}
+\date{23 Octobre, 2017}
+\author{Rémy Detobel}
+
+\begin{document}
+
+\maketitle
+\newpage
+
+\section{Time Complexity}
+  Cela n'a pas de sens de regarder le temps réel d'exécution car cela va dépendre de la machine qui exécute le code.  On va donc plutôt se concentrer sur les étapes exécutées.\\
+  On va donc réduire un programme à une fonction prenant en paramètre la taille de l'input, la complexité du paramètre utilisé pour exécuter cette fonction.  Cette input va sûrement impliquer plus au moins de complexité dans la fonction.  On va donc se concentrer sur la pire complexité.\\
+  En d'autres mots:\\
+  Nombre d'étape de la machine de turing $\Rightarrow f: \mathbb{N} \rightarrow \mathbb{N} : $ maximum d'étape de la machine de turing sur une entrée de taille n.\\
+  Pour cela, on va utiliser le ``grand O''.\\
+  
+  \textbf{Par exemple}: $f(n) = O(g(n))$.\\
+  Qui traduit la relation suivante: $\exists n_0, c\ \forall n > n_0 : f(n) \leq c . g(n)$.\\
+  \begin{align*}
+    f(n) &= n\\
+    f(n) &= O(n \log n)
+  \end{align*}
+  Dans la même idée, on peut utiliser $\Omega$ qui lui utilise donc un $\geq$.\\
+  
+  Enfin, on peut définir $o$ tel que:
+  \begin{align*}
+   f(n) &= o(g(n))\\
+   \lim_{n \rightarrow \inf} \frac{f(n)}{g(n)} &= 0
+  \end{align*}
+  On peut donc écrire:
+  \begin{align*}
+   \sqrt{n} &= o(n)\\
+   n &= o(n \log \log n)\\
+   n^2 &= o(n^3)
+  \end{align*}
+  
+  \textbf{Théorème 7.8}: posons $t(n)$ une fonction tel que $t(n) \geq n$.  Chaque $t(n)-time$ multitape machine de turing (plusieurs rubans) à un équivalent en temps $\mathbf{O(t^2(n)))-times}$ avec un seul ruban (\textit{single-tape}) sur la machine de turing.\\
+  Souvenons nous du théorème 3.13: si l'on simule une machine de turing à plusieurs ruban sur une machine de turing à un ruban.  $\delta : Q \times \Gamma^K \rightarrow Q \times \Gamma^K \times \{L, R\}^K$\\
+  On peut observer plusieurs choses:
+  \begin{enumerate}
+   \item Pour chaque étape de la machine de turing à plusieurs ruban, O(1) scan sur le contenu du ruban.
+   \item le contenu total à une taille $\leq K \times t(n)$
+  \end{enumerate}
+  .\\
+  
+  Souvenons nous du théorème 3.16: chaque machine de turing non déterministe a une équivalence en une machine de turing déterministe.\\
+  Rappel d'une machine de turing non déterministe: $S:Q \times \Gamma \rightarrow P(Q \times \Gamma \times \{L, R\})$\\
+  Pour évaluer une machine de turing non déterministe, on peut construire un arbre qui va associé chacun des choix fait.  Le \textbf{temps d'exécution} = le nombre d'étape maximum pour toutes les entrée de taille n et pour tous les chemins calculable.\\
+  Notons que ce n'est possible \textbf{que} pour les machines \textbf{décidable}.\\
+  \textbf{Théorème 7.11}: Chaque $t(n)-time$ machine de turing non déterministe a un équivalent en temps $2^{O(t(n))}-time$ machine de turing déterministe.\\
+  On définit $b$ tel que le nombre maximum de choix possible pour chaque élément dans l'arbre.  On va donc pouvoir dire qu'il y aura:
+  \begin{enumerate}
+   \item au maximum $b^{t(n}$ nœuds
+   \item pour chaque nœud, le nombre d'étape $\leq O(t(n))$
+  \end{enumerate}
+  Au total: $O(t(n) b^{t(n)}) = 2^{O(t(n))}$ sur une machine de turing à 3 rubans.\\
+  Notons que $(2^{O(t(n))})^2 = 2^{O(t(n))}$\\
+
+\section{La class P}
+  ``Tous les modèles calculable raisonnable sont équivalent en temps polynomial.''.  Ici, polynomial est $O(n^K)$ pour une certaine constante K.\\
+  $t: \mathbb{N} \rightarrow \mathbb{R}^+$ classe de complexité du temps $TIME(t(n))$ est une collection de langage décidable par un $O(t(n))-time$ d'une machine de turing.\\
+  SIPSER: 7.2\\
+  
+  $P$ est une collection de langage décidable dans un temps polynomial sur une machine de turing déterministe.  On note également $P = \bigcup_K TIME(n^k)$
+  
+  \subsection{Exemple}
+    Entrée: le graphe G\\
+    Question: est-ce que G est connecté\\
+    $L = \{<G> | G \text{ est un graphe connecté}\}$\\
+    $L \in P$\\
+  
+  RELPRIME (premier entre eux) = $\{<x, y> | x \text{ et } y \text{ sont des nombres premier entre eux}\}$\\
+  $(gcd(x, y) = 1)$\\
+  Dans d'exécution de l'algorithme euclidien: $O(\log x + \log y))$\\
+  RELPRIME $\in P$\\
+  
+  Il reste cependant des problèmes qui sont encore ouvert.  Par exemple, lorsque l'on prend un ensemble de nombre et qu'il faut vérifier qu'il existe bel et bien un sous ensemble qui additionné vaut zéro.  C'est un problème en temps exponentiel.
+  
+\section{La class NP}
+  ``Non déterministe Polynomial''.\\
+  Un langage A est un algorithme V tel que: $A = \{w | V \text{ accepte } <w, c> \text{ pour un texte } c\}$\\
+  Un temps polynomial vérifie si un vérificateur qui s'exécute en un temps polynomial ($|w|$).  A est vérifiable en un temps polynomal $\leftrightarrow \exists $ un vérificateur en un temps polynomial.
+  
+  \subsection{Exemple}
+    Chemin Hamiltonien: pour un graphe dirigé G et 2 sommets/point $s, t$\\
+    Est-ce qu'il existe un chemin depuis $s$ vers $t$ qui passe par tous les sommets une seule fois ?\\
+    Exemple:
+    \begin{tikzpicture}
+      \node[draw, circle] (0) at (0,1) {s};
+      \node[draw, circle] (1) at (1,0) {};
+      \node[draw, circle] (2) at (1,2) {};
+      \node[draw, circle] (3) at (2,1.5) {};
+      \node[draw, circle] (4) at (2,0.5) {};
+      \node[draw, circle] (5) at (3,0) {};
+      \node[draw, circle] (6) at (3,2) {};
+      \node[draw, circle] (7) at (4,1) {t};
+      
+      \draw[->,>=latex, color=green!20!gray,very thick] (0) -- (1);
+      \draw[<-,>=latex] (0) -- (2);
+      \draw[<-,>=latex] (1) -- (2);
+      \draw[<-,>=latex, color=green!20!gray,very thick] (2) -- (3);
+      \draw[->,>=latex, color=green!20!gray,very thick] (1) -- (4);
+      \draw[<-,>=latex, color=green!20!gray,very thick] (3) -- (4);
+      \draw[->,>=latex] (4) -- (5);
+      \draw[<-,>=latex] (3) -- (6);
+      \draw[->,>=latex, color=green!20!gray,very thick] (2) -- (6);
+      \draw[->,>=latex] (1) -- (5);
+      \draw[->,>=latex, color=green!20!gray,very thick] (6) -- (5);
+      \draw[<-,>=latex, color=green!20!gray,very thick] (7) -- (5);
+      \draw[<-,>=latex] (7) -- (6);
+    \end{tikzpicture}
+    
+  \subsection{Définition}
+    \textbf{Def 7.19}: NP est un langage de class qui a un vérificateur en temps polynomial\\
+    \textbf{Théorème 7.20} Un langage B est dans NP si si et seulement si B est décidable dans une certaine machine de turing dans un temps polynomial non déterministe.\\
+    \textbf{Preuve}\\
+    $\Rightarrow$ donner un vérification V en tempos polynomial, construit en suivant en suivant une machine de turing non déterministe.  N = ``Pour l'entrée $w$ de taille n:
+    \begin{enumerate}
+     \item Non déterministe prenon c de taille $\leq n^k$
+     \item Exécuter $V$ ou $<w, c>$
+     \item si $V$ est accepté, on accepte, sinon on rejette.
+    \end{enumerate}''\\
+    
+    $\Leftarrow$ Supposons que l'on a une machine de turing $N$ non déterministe qui décide du langage en un temps polynomial.  Montrer qu'il existe un vérificateur en un temps polynomial.  V = ''Pour l'entrée $<w, c>$:
+    \begin{enumerate}
+     \item Simuler $N$ sur $w$, et traiter chaque symbole de c comme une description du choix non déterministe pour faire a chaque étape
+     \item Accepter si la branche est acceptée
+    \end{enumerate}``\\
+    
+  \subsection{Deux définition équivalent pour NP}
+    \begin{enumerate}
+     \item Il existe un décideur non déterministe en un temps polynomial (''poly-time non deterministic decider``)
+     \item Il existe un vérificateur en un temps polynomial (''polynomial-time verifier``).
+    \end{enumerate}
+
+  \subsection{...}
+    SUBSET\_SUM = $\{<s, t> | S = \{x_1, x_2, ... x_n\} \text{ et pour certain } \{y_1, y_2, ... y_l\} \subseteq \{x_1, ... x_n\}, \Sigma_{i} y_i = t\}$\\
+    \textbf{Exemple}: $(\{4, 11, 16, 21, 27\}, 25) | $ SUBSET\_SUM $\in NP$\\
+    Oui, il est bien dans NP.
+  
+  \subsection{P = NP}
+    Actuellement, tout le monde est d'accord de dire que $P \subseteq NP$ mais on n'est pas sûr que $P = NP$.
+  
+  
+\end{document}

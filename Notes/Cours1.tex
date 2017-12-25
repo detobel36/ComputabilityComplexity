@@ -1,0 +1,142 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{setspace}
+\usepackage[top=2cm, left=2cm]{geometry}
+\usepackage{graphicx}
+\usepackage{eurosym}
+\usepackage{palatino} % Change font
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage{tcolorbox}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+% Head
+\fancyhead[L]{}
+\fancyhead[C]{\includegraphics[scale=0.4]{../logo.jpg}}
+\fancyhead[R]{}
+% Footer
+\fancyfoot[C]{}
+% Line
+\renewcommand{\headrulewidth}{0pt}
+
+%opening
+\title{INFO-F408: Computability \& complexity}
+\author{Rémy Detobel}
+
+\begin{document}
+
+\maketitle
+\newpage
+
+\section{Introduction}
+  C'est donc un cours de math, permettant de classer les problèmes, leur complexité, ... Il s'agit de la suite du cours d'``informatique fondamentale``.
+
+  \subsection{Référence du cours}
+    \begin{itemize}
+      \item Introduction to the Theory of computation 2\up{nd} Ed.  Michael SIPSER.
+      \item Hilbert (mathématicien), Gödel (il aurait prouvé que complètement transformer les mathématiques en ''programme`` n'est pas possible), Turing, Kleene, Church, Cook-Levin (NP et ses implications), Karp
+    \end{itemize}
+  
+  \subsection{Définition}
+    \begin{itemize}
+      \item \textbf{What problems can be solved by a computer ?}\\
+	  On doit définir plusieurs mots: ''problems``, ''solved`` et ''computer``.
+      \item ''Efficace``: quel est réellement sa définition.  Que veut-on optimiser: le temps, l'énergie utilisé, la place, ressource naturelle (pour créer la machine par exemple). 
+      \item \textbf{How much resources are ''required`` to solve a problem ?}
+      \item Parfois deux problèmes sont très différent mais en résolvant un des deux, on peut très facilement solutionner le problème en changeant peu l'algorithme.
+      \item \textbf{Mathematical Treatment}\\
+	Il y a une certaine formalisme à avoir pour pouvoir caractériser, classer, ... les problèmes.  Il y a différent niveau de langages.  Il ne faut pas se satisfaire de comprendre en général mais bien en profondeur.
+      \item \textbf{Compilateurs, langages de programmation}
+      \item \textbf{Optimisation: problème linéaire (LP), algorithme génétique, problème de satisfaisabilité, plus court chemin}
+      \item \textbf{P vs NP (traveling problem (voyageur de commerce))}
+    \end{itemize}
+  
+  \subsection{Connexion avec d'autres matières}
+    Biologie, physique (ordinateur quantum (pas abordé dans ce cours)), ...
+    
+  \subsection{Quelques concepts de bases}
+    Sets, logique booléen, séquences, relations, fonctions, graphes, ''strings``/chaînes de caractères, preuve par l'absurde (''proof by contradiction'').\\
+    Référence: chapitre 0 du livre pour se rappeler.
+  
+  \subsection{Problème de décision}
+    Problème où la réponse est ``oui'' ou ``non``.  Certains peuvent être résolu par des algorithmes et des ordinateurs.  Il faut donner des informations qui permettent de décider si la réponse est ''oui`` ou ''non''.  C'est la qu'est le problème principal des algorithmes.  On va donc utiliser seulement des problèmes dont la solution est déjà définie par l'entrée (y a t'il un chemin entre deux points d'un graphe).\\
+    \begin{itemize}
+     \item well-defined
+     \item self-contrained
+    \end{itemize}
+    Il y a une différence entre problème et une instance.  Le problème est plus général qu'une instance.  Une instance c'est un cas particulier d'un problème, dans lequel on a donc définit les entrées/inputs.  Chaque ``input'' possible est donc une instance...\\
+    Problème: la liste des entrée pour lesquelles l'entrée est ``oui''.
+    
+    \subsubsection{Exemples}
+      \textbf{Problème:} dire si un nombre est pair ou non.\\
+      \textbf{Solution:} tous les nombres pair (donc tous les nombres impaires sont faux).\\
+      \\
+      \textbf{Problème:} un graphe est-t-il connexe (donc qu'il est possible de n'importe quel point dans le graphe vers n'importe quel autre point).
+      \textbf{Solution:} tous les graphes connexes (on peut les encoder sous forme de matrice (0 pas de lien, 1 si un lien)).
+      
+    \subsubsection{Input/Entrée}
+      Les entrées/input doivent appartenir à un langages (qui peut être 0/1): une liste de mot/chaîne de caractère.  On considérera aussi que lorsque l'input n'est pas bon, la réponse est ``non''.  Pour le second exemple donc, si on ne reçois pas un graphe en entrée, on répondra ``non''.   Il faudra donc que l'algorithme vérifie d'abord l'entrée avant d'essayer de résoudre.
+    
+  \subsection{Problème de décision $\neq$ problème d'optimisation}
+    Bisection/dicotomie\\
+    Un problème de décision peut aider à savoir s'il est optimisé...\\
+    Exemple: problème de décision: est-ce que le chemin coute moins que la valeur ``d'' ?
+    On prend ``d`` comme le milieu entre 0 et le maximum (nombre de point dans le graphe).
+    \textbf{Transformé en problème de décision}: en général c'est possible en reformulant le problème.
+    
+\section{Automate fini}
+  Cela permet de déjà commencer à répondre à la question ''qu'est-ce qu'un ordinateur``.
+  5 tuple: $(Q, \Sigma, \delta, q_0, F)$\\
+  Référence: chapitre 1.1 du livre\\
+  \\
+  $Q$ = nombre fini d'état (finite set of states).\\
+  $\Sigma$ = alphabet utilisé par le problème (finite set called the alphabet)\\
+  $\delta = Q \times \Sigma \rightarrow Q$ (multiplication cartésienne (cartesian product)) fonction de transition\\
+  $q_0 \in Q$ c'est l'élément de départ (the start state)\\
+  $F \subseteq Q$ liste des états acceptés (set of accepting states)\\
+  
+  \subsection{Regular language}
+    Définition: livre point 1.16\\
+    A language is called a regular language if some finite automator recognizes it. (= Regular Exepression (REGEX))\\
+    \textit{Finite automaton M} defines a language $L(M)$.\\
+    \textbf{Exemple}: $A = \{w \in \{0, 1\}* | w$ contains at least on 1 and an even number of 0 follow the last 1$\}$
+    
+\section{No determinism / Non déterministe}
+  Référence: chapitre 1.2 du livre\\
+  Les automates fini sont déterministe.\\
+  $\epsilon$ = ''empty'' symbol
+  
+  \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm,
+                    semithick]
+    \tikzstyle{every state}=[fill=gray!30!white,draw=none,text=black]
+    \tikzstyle{accepting}=[fill=gray!30!white,draw=black,text=black]
+    
+    \node[initial,state] (1) {$q_1$};
+    \node[state] (2) [right of=1] {$q_2$};
+    \node[state] (3) [right of=2] {$q_3$};
+    \node[state,accepting] (4) [right of=3] {$q_4$};
+    
+    \path (1) edge [loop below] node {0, 1} (1)
+	  (1) edge node {1} (2)
+	  (2) edge node {0, $\epsilon$} (3)
+	  (3) edge node {1} (4);
+	  (4) edge [loop below] node {0, 1} (4);
+  \end{tikzpicture}
+  
+  Dans un automate non déterministe le $\delta$ ne sera pas définit de la même manière.  Il sera écrit:
+  $$\delta : Q \times \Sigma_{\epsilon} \rightarrow P(Q)$$
+  $P(Q)$ liste d'état dans Q (set of states in Q)\\
+  Les automates ``non déterministe'' reconnaissent exactement les mêmes langages que les automates ``déterministe''.  Cela dit, les automates non déterministes sont plus simple à écrire et à comprendre au premier abord (la preuve arrivera).\\
+  Voir livre 1.39.\\
+  Chaque NFA (automate non déterministe) à un équivalent en DFA (automate déterministe).
+  
+  
+  
+\end{document}

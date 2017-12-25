@@ -1,0 +1,110 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[francais]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{hyperref}
+\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm]{geometry}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{mathtools}
+
+\newcommand{\neqsat}{$\neq$SAT}
+\newcommand{\neqassign}{$\neq$assignement}
+
+\title{\vspace{-2.0cm}Devoir~: \neqsat}
+\author{Remy Detobel}
+
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+  Nous devons prouver que \neqsat\ est NP-Complet.
+  
+  \subsection{Définition de \neqsat}
+    Prenons $\phi$ comme étant une formule sous la forme normale conjonctive de trois littéraux.  Une assignation des variables de $\phi$ est correcte si deux littéraux ont deux valeurs différentes.  En d'autres mots, les trois littéraux ne peuvent pas avoir la même valeur.  \neqsat\ est une collection de ce genre de formule.  Nous appellerons ces formules sous forme normale conjonctive~: ``\neqassign''.
+  
+  \subsection{Définition de NP-Complet}
+    Un langage B est ``NP-complet`` si et seulement si~:
+    \begin{itemize}
+      \item $B \in NP$
+      \item Pour chaque $A \in NP, A \leq_{p} B$
+    \end{itemize}
+    Dans le cas présent, nous devons donc prouver que \neqsat\ est dans NP et également que pour un problème $A$ étant lui même NP on peut écrire: $A \leq_p$ \neqsat.  C'est à dire qu'il existe une fonction $f$ s'exécutant en un temps polynomial tel que:
+    $$\forall w, w \in A \Leftrightarrow f(w) \in B$$
+    
+\section{Réduction}
+  Nous allons donc réduire 3SAT en \neqsat.
+  
+  \subsection{Réduction de 3SAT}
+    Pour se faire nous allons modifier les clauses du problème 3SAT.  Notons $x_{i, j}$ un littéral appartenant à la $i$\up{ème} clause et étant le $j$\up{ème} élément de cette clause (variant de 1 à 3 pour 3SAT).  La clause $i$ peut donc être écrite comme étant:
+    $$(x_{i, 1} \vee x_{i, 2} \vee x_{i, 3})$$
+    Comme indiqué, nous voulons éviter que chaque littéral soit égal à $True$.  Pour ce faire nous allons rajouter une variable $C_i$ et une constante $False$.  Nous pouvons donc écrire:
+    \begin{align*}
+    &(x_{i, 1} \vee x_{i, 2} \vee C_i)\\
+    \wedge\ &(x_{i, 3} \vee C_i \vee False)
+    \end{align*}
+    Où $C_i = \big(x_{i, 1} \vee x_{i, 2} \vee x_{i, 3}\big) \wedge \big(\overline{x_{i, 1}} \vee \overline{x_{i, 2}}\big)$.\\
+    En effet, on veut que l'assignation soit fausse si $x_{i, 1}, x_{i, 2}$ et $x_{i, 3}$ sont faux car cette assignation serait fausse également pour le problème 3SAT.  Cette première phrase justifie la condition dans la première parenthèse.  En effet, on peut écrire:
+    \begin{align*}
+      \overline{C_i} &= (\overline{x_{i, 1}} \wedge \overline{x_{i, 2}} \wedge \overline{x_{i, 3}})\\
+      \Leftrightarrow C_i &= x_{i, 1} \vee x_{i, 2} \vee x_{i, 3}
+    \end{align*}
+    La seconde condition permet de vérifier que lorsque $x_{i, 1}$ et $x_{i, 2}$ sont à $True$, $C_i$ soit bien à $False$ pour éviter que les trois littéraux ne soient à $True$, on peut donc écrire:
+    \begin{align*}
+      \overline{C_i} &= x_{i, 1} \wedge x_{i, 2}\\
+      \Leftrightarrow C_i &= \overline{x_{i, 1}} \vee \overline{x_{i, 2}}
+    \end{align*}
+  
+    \subsubsection{Exemple de réduction d'un problème 3SAT}
+      Un problème 3SAT peut donc être écrit de la manière suivante:
+      \begin{align*}
+	&(x_1 \vee x_2 \vee x_3)\\
+	\wedge\ &(\overline{x_1} \vee x_2 \vee x_3)\\
+	\wedge\ &(\overline{x_1} \vee \overline{x_2} \vee x_3)
+      \end{align*}
+      Une solution possible est: $x_1 = True, x_2 = True$ et $x_3 = True$.  Appliquons donc la réduction:
+      \begin{align*}
+	&(x_1 \vee x_2 \vee C_1)\\
+	\wedge\ &(x_3 \vee C_1 \vee False)\\
+	\wedge\ &(\overline{x_1} \vee x_2 \vee C_2)\\
+	\wedge\ &(x_3 \vee C_2 \vee False)\\
+	\wedge\ &(\overline{x_1} \vee \overline{x_2} \vee C_3)\\
+	\wedge\ &(x_3 \vee C_3 \vee False)
+      \end{align*}
+      Où $C_i = \big(x_{i, 1} \vee x_{i, 2} \vee x_{i, 3}\big) \wedge \big(\overline{x_{i, 1}} \vee \overline{x_{i, 2}}\big)$.\\
+      Donc pour $x_1 = True, x_2 = True$ et $x_3 = True$, on aura:
+      \begin{align*}
+	C_1 &= \big(x_1 \vee x_2 \vee x_3\big) \wedge \big(\overline{x_1} \vee \overline{x_2}\big)\\
+	&= \big(True \vee True \vee True\big) \wedge \big(\overline{True} \vee \overline{True}\big)\\
+	&= \big(True \vee True \vee True\big) \wedge \big(False \vee False\big)\\
+	&= False
+      \end{align*}
+      \begin{align*}
+	C_2 &= \big(\overline{x_1} \vee x_2 \vee x_3\big) \wedge \big(\overline{(\overline{x_1})} \vee \overline{x_2}\big)\\
+	&= \big(False \vee True \vee True\big) \wedge \big(\overline{False} \vee \overline{True}\big)\\
+	&= \big(False \vee True \vee True\big) \wedge \big(True \vee False\big)\\
+	&= True
+      \end{align*}
+      \begin{align*}
+	C_3 &= \big(\overline{x_1} \vee \overline{x_2} \vee x_3\big) \wedge \big(\overline{(\overline{x_1})} \vee \overline{(\overline{x_2})}\big)\\
+	&= \big(False \vee False \vee True\big) \wedge \big(\overline{False} \vee \overline{False}\big)\\
+	&= \big(False \vee False \vee True\big) \wedge \big(True \vee True\big)\\
+	&= True
+      \end{align*}
+      On a donc $C_1 = False, C_2 = True$ et $C_3 = True$.\\
+      
+      Si l'on considère une autre solution: $x_1 = False,\ x_2 = True$ et $x_3 = False$, on aura: $C_1 = True,\ C_2 = False$ et $C_3 = True$.
+      
+  \subsection{\neqsat\ est un problème NP}
+    Un problème appartient à NP s'il existe un algorithme permettant de vérifier les solutions en un temps polynomial par rapport aux nombres d'entrées.  Pour vérifier qu'une solution assignant $n$ variables soit à $T$, soit à $F$, il suffit de calculer chacune des clauses.  Le nombre étant fixe pour un problème donné, cette vérification se fait en $O(n)$.  Il s'agit donc bien d'un problème appartenant à NP.
+  
+\section{Conclusion}
+  En prouvant qu'il existe une réduction de 3SAT vers \neqsat\ en un temps polynomial et en montrant que \neqsat\ était bien un problème appartenant à NP, on a bien montré que \neqsat\ est NP-Complet.
+  
+  
+  
+\end{document}

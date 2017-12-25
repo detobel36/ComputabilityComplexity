@@ -1,0 +1,152 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{setspace}
+\usepackage[top=2cm, left=2cm]{geometry}
+\usepackage{graphicx}
+\usepackage{eurosym}
+\usepackage{palatino} % Change font
+\usepackage{hyperref}
+\usepackage{mathtools, bm}
+\usepackage{amssymb, bm}
+\usepackage{color}
+\usepackage{tcolorbox}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+% Head
+\fancyhead[L]{}
+\fancyhead[C]{\includegraphics[scale=0.4]{../logo.jpg}}
+\fancyhead[R]{}
+% Footer
+\fancyfoot[C]{}
+% Line
+\renewcommand{\headrulewidth}{0pt}
+
+%opening
+\title{INFO-F408: Computability \& complexity}
+\date{2 Octobre, 2017}
+\author{Rémy Detobel}
+
+\begin{document}
+
+\maketitle
+\newpage
+
+\section{Turing machine suite}
+  \subsection{Non déterministe}
+    $$\delta: Q \times \Gamma \rightarrow P ( Q \times \times \Gamma \times \{L, R\})$$
+    \textbf{Voir livre}: théorème 3.16: Chaque NTM as un équivalent DTM.\\
+    On va donc faire un parcoure de l'arbre en largeur (et non en profondeur).
+  
+  \subsection{Reconnaitre un langage de turing}
+    \textbf{Voir théorème 3.21}:\\
+    Un langage est ``turing-recognizable'' si et seulement si un ``enumerator'' l'énumère.
+
+    \subsubsection{Démonstration}
+      ($\Leftarrow$) Supposons qu'il existe un énumérateur ``E'':\\
+      M = ``lorsque l'entrée est w''
+      \begin{enumerate}
+	\item Exécuter E: chaque fois que E écrit(/output) un string, on le compare avec w
+	\item si c'est égal, on accepte.
+      \end{enumerate}
+    
+      ($\Rightarrow$) Supposon qu'il existe une machine de turing qui reconnaisse le langage $L$.\\
+      E = ``ignorer l'entrée''
+      \begin{enumerate}
+	\item Répéter pour $i = 1, 2, 3, ...$\\
+	Exécuter M pour l'étape i, sur l'entrée $S_1, S_2, ... S_i$\\
+	Si un exécution est acceptable, on affiche le $S_j$ correspondant.\\
+	Au pire on fera ``i'' étapes pour afficher un mot, mais il pourra être affiché avant l'étape ``i''.
+      \end{enumerate}
+      
+      \begin{table}[h]
+	\centering
+	\begin{tabular}{c|ccccc}
+	step/input & $S_1$                  & $S_2$                  & $S_3$                  & $S_4$                  & $S_5$ \\ \hline
+	1          & \multicolumn{1}{c|}{x} &                        &                        &                        &       \\ \cline{3-3}
+	2          & x                      & \multicolumn{1}{c|}{x} &                        &                        &       \\ \cline{4-4}
+	3          & x                      & x                      & \multicolumn{1}{c|}{x} &                        &       \\ \cline{5-5}
+	4          & x                      & x                      & x                      & \multicolumn{1}{c|}{x} &       \\ \cline{6-6} 
+	5          & x                      & x                      & x                      & x                      & x    
+	\end{tabular}
+      \end{table}
+      
+  \subsection{Langage régulier (regular languages)}
+    Langage régulier = reconnaissable par un automate fini (FA: finite automaton)\\
+    Langage décidable (= decidable = recursively) = décidable par une machine de turing.\\
+    Langage reconnaissable (recognizable languages = recursively enumerable = RE) =
+    \begin{itemize}
+      \item recognized par une machine de turing
+      \item a un enumerateur (``enumerator'')
+    \end{itemize}
+    
+    Régulier < décidable < reconnaissable/recognizable
+    
+    
+\section{The Church-Turing thesis}
+  C'est une thèse, pas une preuve.\\
+  $\Rightarrow$ La notion intuitive d'un algorithme est égal à un algorithme d'une machine de turing\\
+  
+  \subsection{Hilberts Problem}
+    Est-ce qu'il existe un algorithme qui décide si un polynôme à une racine composée uniquement de nombre entier.\\
+    \textbf{Exemple}:
+    $$P(x) = x_1^2 + x_2 x_3^4 - 6 x_1 x_2^3 x_3 x_4^2 + 7 x_1$$
+    Et on cherche donc des nombres entier $x_1, x_2, x_3, x_4$\\
+    
+    Il s'agit ici d'un problème ``recognazable'' (reconnaissable).  Car si il y a une solution, on pourra la voir.  Par contre, il n'est pas ``décidable'' parce que s'il n'y a pas de solution, il tournera à l'infini.\\
+    
+    L'indécidabilité de ce problème à été prouvé en 1970 par Matijasevic.
+  
+\section{Halting problème (problème de l'arrêt)}
+  Point 4.2.\\
+  Diagonalization (cantor)
+  $f: A \rightarrow B$ est:\\
+  ``un à un`` si tous les élément de A sont projeté de manière distincte sur des éléments de B.\\
+  ''dans`` lorsque tous les éléments de A sont dans B, par exemple:\\
+  $$\forall b \in B, \exists a \in A : f(a) = b$$
+  ''one-to-one`` (un à un) ET ''onto'' (dans) = ``one-to-one correspondance''\\
+  C'est équivalent à une bijection.
+  
+  Une ensemble A est ``countable'' (dénombrable) si il est finie OU t'il existe une correspondance un à un (``one-to-one correspondence'') entre A et $\mathbb{N}$ (ce qui est équivalent à dire qu'il a la même ``taille'' que $\mathbb{N}$).\\
+  \textbf{Exemple}: est-ce que:
+  \begin{itemize}
+    \item les nombres paires sont dénombrable ?\\
+      $\rightarrow$ Oui ($\mathbb{N} / 2$)
+      
+    \item les nombres rationnels ($\mathbb{Q}$) sont dénombrable ?\\
+      $\rightarrow$ Oui (pour cela il faut juste mettre un ordre.  Pour se faire, on peut parcourir un tableau à double entrées représentant les numérateurs et dénominateurs. Il suffirait donc de simplement définir l'ordre de lecture qui logiquement se ferait plutôt en diagonal).
+      
+    \item $\mathbb{Z}$ est dénombrable ?\\
+      $\rightarrow$ Oui (nombre négatif étant des paires, nombre positif étant des impaires. De cette manière on compte tous les nombres).
+  \end{itemize}
+
+  \subsection{Cantor's Diagonal}
+    Théorème: $\mathbb{R}$ est indénombrable (``not countable'').\\
+    Prouvons cela par contradiction:\\
+    Supposons donc que $\mathbb{R}$ est dénombrable.  On a donc une liste qui fait correspondre tous les nombres naturels ($\mathbb{N}$) à un nombre présent dans $\mathbb{R}$).  On va donc prouver qu'il existe un $x \in [0, 1]$ qui n'est pas dans cette liste.
+    \begin{table}[h]
+      \centering
+      \begin{tabular}{lr}
+      \multicolumn{1}{l|}{1} & 0,\textbf{3}1415926535   \\
+      \multicolumn{1}{l|}{2} & 1,0\textbf{0}000000000   \\
+      \multicolumn{1}{l|}{3} & 22,12\textbf{3}12312312  \\
+      \multicolumn{1}{l|}{4} & 323,010\textbf{1}0101010 \\
+      \multicolumn{1}{l|}{5} & 4,1502\textbf{6}535010	\\
+      \multicolumn{1}{l|}{6} & ...
+      \end{tabular}
+    \end{table}
+    Pour construire le $x$, on va prendre le nom à la position i et l'incrémenter.  Ici $x$ vaut donc:
+    $x = 0,41427...$  Donc, par construction, il ne peut pas être dans la liste.
+  
+  Prenons $\mathcal{L}$ comme étant l'ensemble des langages sur l'alphabet $\Sigma$\\
+  Prouver que $\mathcal{L}$ est indénombrable (``uncountable'').
+  
+  
+    
+\end{document}

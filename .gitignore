@@ -1,0 +1,8 @@
+# LaTex
+*.log
+*.out
+*.aux
+*.tex.backup
+
+# Folder
+Référence/

@@ -1,0 +1,174 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{setspace}
+\usepackage[top=2cm, left=2cm]{geometry}
+\usepackage{graphicx}
+\usepackage{eurosym}
+\usepackage{palatino} % Change font
+\usepackage{hyperref}
+\usepackage{mathtools, bm}
+\usepackage{amssymb, bm}
+\usepackage{multirow}
+\usepackage{color}
+\usepackage{tcolorbox}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+% Head
+\fancyhead[L]{}
+\fancyhead[C]{\includegraphics[scale=0.4]{../logo.jpg}}
+\fancyhead[R]{}
+% Footer
+\fancyfoot[C]{}
+% Line
+\renewcommand{\headrulewidth}{0pt}
+
+%opening
+\title{INFO-F408: Computability \& complexity}
+\date{4 décembre, 2017}
+\author{Rémy Detobel}
+
+\newtcolorbox{defBox}{%
+colback=gray!5!white,colframe=black!75!white,fonttitle=\bfseries,
+title=Définition}
+
+\newtcolorbox{theoremeBox}{%
+colback=blue!5!white,colframe=blue!40!white,fonttitle=\bfseries,
+title=Théorème}
+
+\newtcolorbox{importantBox}{%
+colback=red!5!white,colframe=red!65!white,fonttitle=\bfseries,
+title=Important}
+
+
+\begin{document}
+
+\maketitle
+\newpage
+
+\section{Chapitre 8: SPACE Complexity}
+  Pour une machine de turing, fonction: $f: \mathbb{N} \rightarrow \mathbb{N}$.\\
+  Taille maximum d'une case scanné par une machine de turing sur chaque input de taille $n$.\\
+  
+  Machine de turing non déterministe:$*$ $+$ maximise le calcule de chaque branche
+  
+  \begin{align*}
+    SPACE(f(n)) = \big\{&L | L \text{ un langage décidable par une machine}\\
+    &\text{de turing déterministe en } O(f(n))-space \big\}\\
+    \\
+    NSPACE(f(n)) = \big\{&L | L \text{ un langage décidable par une machine}\\
+    &\text{de turing \textbf{non} déterministe en } O(f(n))-space \big\}
+  \end{align*}
+  
+  Exemple: $SAT \in SPACE(n)$
+  
+  \subsection{Théorème de Savitch}
+    \textit{Théorème 8.5}
+    \begin{theoremeBox}
+      $\forall f(n) \geq n$\\
+      $NSPACE(f(n)) \subseteq SPACE(f^2(n))$
+    \end{theoremeBox}
+
+    \textbf{Preuve du théorème de Savitch}:\\
+    Machine de turing non déterministe N décidable pour A en $f(n) space$\\
+    Algorithme Canyield sur l'input: $c_1, c_2$ (configurations)$, t$ (nombre d'étapes).
+    
+    \textbf{Question} Peut-on aller de la configuration $c_1$ à la configuration $c_2$ avec un maximum de $t$ étapes.\\
+    Supposons que sans perte de généralité, il n'existe qu'une seule configuration acceptante (supprimer le contenu du tape et déplacer la tête sur la première case).\\
+    
+    $$CANYIELD(c_{start}, c_{accept}, 2^{df(n)}) \text{simule } N$$
+    \begin{enumerate}
+      \item Si $t = 1$, est-ce que N peut attendre $c_2$ depuis $c_1$ en une étape.  (cfr ``legal windows``)
+      \item Dans les autres cas, pour chaque configuration $c_m$ de N en utilisant $space\ f(n)$:
+	\begin{enumerate}
+	  \item exécuter $CANYIELD(c_1, c_m, t/2)$
+	  \item exécuter $CANYIELD(c_m, c_2, t/2)$
+	  \item Accepter si les deux acceptent
+	\end{enumerate}
+      \item Si pas accepté, alors on rejette
+    \end{enumerate}
+    Remarque: $t$ ne peut pas être impaire car il est égal à une puissance de 2 (à savoir $2^{df(n))}$)\\
+    
+    Le nombre maximum d'appel récursif est égal à $\log_2 t$, donc $\log_2 2^{df(n)} = O(f(n))$\\
+    L'espace requis pour chaque appel récursif est plus au moins égal à $c_m \leq f(n))$\\
+    $\Rightarrow O(f^2(n))$
+    
+    
+  \subsection{PSPACE}
+    $$PSPACE = \cup_{k} SPACE(n^k)$$
+    On ne sait pas si $NP$ est strictement inclut dans $PSPACE$ ou pas.  Par contre on est sur que $P \neq EXPTime$
+    
+    \begin{tikzpicture}
+      \draw (0,0) circle (1);
+      \node[] at (0, 0) {P};
+      \draw (0,0) ++(0.3, 0) circle (1.5);
+      \node[] at (1.4, 0) {NP};
+      \draw (0,0) ++(1.3, 0) circle (2.7);
+      \node[] at (3, 0) {PSPACE};
+      \draw (0,0) ++(2.3, 0) circle (3.9);
+      \node[] at (5.1, 0) {EXPTIME};
+      \draw (0,0) ++(3.4, 0) circle (5.1);
+      \node[] at (7.3, 0) {Decidable};
+      \draw (0,0) ++(3.9, 0) circle (5.8);
+      \node[] at (9, 0) {RE};
+    \end{tikzpicture}
+    Cfr: Complexité de Zoo
+    
+    $$NPSPACE = \cup_{k} NSPACE(n^k)$$
+    En parant du théorème de Savitch, on peut écrire: $\Rightarrow PSPACE = NPSPACE$.
+    
+    Complémentarité de $PSPACE$:\\
+    Un langage B est PSPACE complet si et seulement si:
+    \begin{enumerate}
+     \item $B \in PSPACE$
+     \item $\forall A \in PCPACE, A \leq_p B$ (''PSPACE-Hard``)
+    \end{enumerate}
+    NB: Une instance $\phi(x)$ (qui est une formule booléen) du problème SAT $\Leftrightarrow$ est-ce que cette fonction est vrai: $\exists x : \phi(x)$
+    
+    TRUE QUANTIFIED BOOLEAN FORMULE (TQBF)\\
+    Exemple: $\exists \forall y \exists z \forall t: \phi(x, y, z, t)$\\
+    
+    \begin{align*}
+      TQBF = \Big\{<\phi> | &\phi \text{ est vrai et complètement quantifié}\\
+      &\text{comme étant une formule booléen}\Big\}
+    \end{align*}
+    $TQBF \in NP$, la réponse n'est pas définie clairement, mais on peut facilement montré pour un exemple qu'il est dans NP.
+    
+    \begin{theoremeBox}
+      TQBF est PSPACE Complet
+      \begin{enumerate}
+       \item $TQBF \in PSPACE$
+       \item TQBF est PSPACE-Dure ($\forall A \in PSPACE, A \leq_p TQBF$).\\
+	Pour M décidable sur A dans $n^k$ space, nous ajoutons un input w a une formule booléen totalement quantifié (Fully quantified Boolean formula) qui si est vrai si et seulement si w est accepté par M.\\
+	Rappelons nous l'encodage de la configuration de ''string`` en variable booléens dans le théorème de Cook-Levin: $X_{i, s} =$ ''Symbole S est trouvé à la position i`` \footnote{Chaque configuration peut être encodé avec $O(n^k)$ variables booléen}.
+      \end{enumerate}
+    \end{theoremeBox}
+    $\phi_{c_1, c_2, t} \Leftrightarrow M$ peut aller de la configuration $c_1$ à la configuration $c_2$ avec au maximum $t$ étapes.
+
+    Pour $t = 1$: cfr ''legal windows``\\
+    \textbf{Échauffement:} $\phi_{c_1, c_2, t} = \exists m_1 \big[\phi_{c_1, m_1, t/2} \wedge \phi_{m_1, c_2, t/2}\big]$
+    Faire ceci revient à séparer en deux le problème et donc cela devient exponentiel.\\
+    \textbf{Meilleure idée:} $\phi_{c_1, c_2, t} = \exists m_1 \forall (c_3, c_4) \in \big\{(c_1, m_1), (m_1, c_2)\big\}$\\
+    $[\phi_{c_3, c_4, t/2}]$
+    
+    NB: $\forall x \in \big\{y, z\big\}$ peut être remplacé par $\forall x \Big[\big( x = y \vee x = z\big) \rightarrow ... \Big]$\\
+    
+    Observation:
+    \begin{itemize}
+     \item A chaque niveau de la récursion, on rajoute une partie de taille $O(f(n)) = O(n^k)$
+     \item Le nombre de niveau est égal à $\log_2 t$
+    \end{itemize}
+
+    $$\phi_{c_{start}, c_{accept}, 2^{(df(n) = n^k)}} \text{ a une taille de } O(f^2(k)) = O(n^{2k})$$
+    
+    
+    
+    
+    
+\end{document}

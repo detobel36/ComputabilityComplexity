@@ -1,0 +1,315 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{setspace}
+\usepackage[top=2cm, left=2cm]{geometry}
+\usepackage{graphicx}
+\usepackage{eurosym}
+\usepackage{palatino} % Change font
+\usepackage{hyperref}
+\usepackage{mathtools, bm}
+\usepackage{amssymb, bm}
+\usepackage{color}
+\usepackage{tcolorbox}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+% Head
+\fancyhead[L]{}
+\fancyhead[C]{\includegraphics[scale=0.4]{../logo.jpg}}
+\fancyhead[R]{}
+% Footer
+\fancyfoot[C]{}
+% Line
+\renewcommand{\headrulewidth}{0pt}
+
+%opening
+\title{INFO-F408: Computability \& complexity}
+\date{13 novembre, 2017}
+\author{Rémy Detobel}
+
+\newtcolorbox{defBox}{%
+colback=gray!5!white,colframe=black!75!white,fonttitle=\bfseries,
+title=Définition}
+
+\newtcolorbox{theoremeBox}{%
+colback=blue!5!white,colframe=blue!40!white,fonttitle=\bfseries,
+title=Théorème}
+
+\newtcolorbox{importantBox}{%
+colback=red!5!white,colframe=red!65!white,fonttitle=\bfseries,
+title=Important}
+
+
+\begin{document}
+
+\maketitle
+\newpage
+
+\section{Cook-Leving}
+  \textbf{Rappel:} SAT est NP-Complet.\\
+  Ce qui signifie que $A \in NP$ et $\exists$ une machine de turing non déterministe $N$\\
+  $\phi = \phi_{cell} \wedge \phi_{start} \wedge \phi_{accept} \wedge \phi_{move}$
+  
+  \subsection{Exemple}
+    $$\delta(q_1, a) = \{(q_1, b, R)\}$$
+    Qui signifie que si on lit $a$ sur le tape, on écrit $b$ en $q_1$ et on se déplace vers la droite.  On a donc ici une machine non déterministe, on a donc un set mais dans les faits ce set n'a qu'un seul élément il est donc déterministe.
+    
+    $$\delta(q_1, b) = \{(q_2, c, L), (q_2, a, R)\}$$
+    Si on lit b sur le tape, on peut soit écrite $c$ sur $q_2$ et se déplacé vers la gauche ou aller à droite en écrivant $a$ sur $q_2$.
+  
+    \textbf{Tableaux}:\\
+    \begin{center}
+      \begin{minipage}[c]{.4\textwidth}
+	\begin{tabular}{|c|c|c|}
+	  \hline
+	  a     & $q_1$ & b \\ \hline
+	  $q_2$ & a     & c \\ \hline
+	\end{tabular}\\
+	Ce tableau est légal/valide
+      \end{minipage}
+      \begin{minipage}[c]{.4\textwidth}
+	\begin{tabular}{|c|c|c|}
+	  \hline
+	  b & b & b \\ \hline
+	  c & b & b \\ \hline
+	\end{tabular}\\
+	Ce tableau est légal/valide
+      \end{minipage}
+      
+      \begin{minipage}[c]{.4\textwidth}
+	\begin{tabular}{|c|c|c|}
+	  \hline
+	  \# & b & a \\ \hline
+	  \# & b & a \\ \hline
+	\end{tabular}\\
+	Ce tableau est légal/valide
+      \end{minipage}
+      \begin{minipage}[c]{.4\textwidth}
+	\begin{tabular}{|c|c|c|}
+	  \hline
+	  a & b & a \\ \hline
+	  a & a & a \\ \hline
+	\end{tabular}\\
+	Ce tableau n'est \textbf{pas} valide
+      \end{minipage}
+      
+      \begin{minipage}[c]{.4\textwidth}
+	\begin{tabular}{|c|c|c|}
+	  \hline
+	  a     & $q_1$ & b \\ \hline
+	  $q_2$ & a     & a \\ \hline
+	\end{tabular}\\
+	Ce tableau n'est \textbf{pas} valide
+      \end{minipage}
+      \begin{minipage}[c]{.4\textwidth}
+	\begin{tabular}{|c|c|c|}
+	  \hline
+	  a & $q_1$ & a \\ \hline
+	  a & b     & a \\ \hline
+	\end{tabular}\\
+	Ce tableau n'est \textbf{pas} valide
+      \end{minipage}
+    \end{center}
+    
+    $$* = \bigvee\limits_{a_1, a_2, ..., a_6\text{est une fenêtre légal}} \big(X_{i, j-1, a_1} \wedge X_{i, j, a_2} \wedge X_{i, j+1, a_3} \wedge X_{i+1, j, a_4} \wedge ... \wedge X_{i+1, j+1, a_6}\big)$$
+    
+    \begin{table}[h]
+      \centering
+      \begin{tabular}{cccc}
+			      & j-1                         & j                          & j+1                        \\ \cline{2-4} 
+      \multicolumn{1}{c|}{i}   & \multicolumn{1}{c|}{$a_1$} & \multicolumn{1}{c|}{$a_2$} & \multicolumn{1}{c|}{$a_3$} \\ \cline{2-4} 
+      \multicolumn{1}{c|}{i+1} & \multicolumn{1}{c|}{$a_4$} & \multicolumn{1}{c|}{$a_5$} & \multicolumn{1}{c|}{$a_6$} \\ \cline{2-4} 
+      \end{tabular}
+    \end{table}
+    
+    Si $\phi$ as une taille polynomial alors $\phi$ est satisfaisable $\Leftrightarrow$ $w$ est accepté par N.
+    
+    
+\section{3-SAT}
+  Forme normal conjonctive se note ``CNF'' en anglais.  La formule de la FNC-4 s'écrit:
+  $$\bigwedge\limits_{j} \big(l_{i_1, j} \vee l_{i_2, j} \vee l_{i_3, j} \big)$$
+  On appel donc ce qu'il y a dans le grand ``ET'' une clause et chaque élément de cette close s'appel un litéral et est soit une variable, soit une variable négative.
+  
+  \subsection{3 SAT est NP-Complet}
+    \begin{itemize}
+      \item $\phi$ peut être écrit en FNC (seulement $\phi_{move}$ doit être transformé)
+      \item Maintenant les clauses ne doivent pas avoir une taille de 3. Pourquoi faire ?
+    \end{itemize}
+    
+    Supposons une clause: $(a_1 \vee a_2 \vee ... \vee a_l)$
+    \begin{align*}
+      &(a_1 \vee a_2 \vee Z_1) \wedge \\
+      &(\bar{Z_1} \vee a_3 \vee Z_2) \wedge \\
+      &(\bar{Z_2} \vee a_4 \vee Z_3) \wedge \\
+      &... \wedge\\
+      &(\bar{Z_{l-3}} \vee a_{l-1} \vee a_l)
+    \end{align*}
+    
+    \textbf{Exemple}
+    $a_4 = T, a_{i \neq 4} = F$
+    \begin{align*}
+      &(a_1 \vee a_2 \vee Z_1 \mathit{= T}) \wedge \\
+      &(\bar{Z_1} \vee a_3 \vee Z_2 \mathit{= T}) \wedge \\
+      &(\bar{Z_2} \vee a_4 \mathit{= T} \vee Z_3 \mathit{= F}) \wedge \\
+      &(\bar{Z_3} \vee a_5\vee Z_4 \mathit{= F}) \wedge \\
+      &(\bar{Z_4} ...) \\
+    \end{align*}
+    
+    
+\section{CLIQUE est NP-Complet}
+  
+  \subsection{Vertex Cover}
+    $3\ SAT \leq_p Vertex\ Cover$
+    
+    \begin{tikzpicture}
+      \node[draw, circle] (1_1) at (0,0) {$x_1$};
+      \node[draw, circle] (1_2) at (2,0) {$x_2$};
+      \node[draw, circle] (1_11) at (1,1) {$x_1$};
+
+      \node[draw, circle] (2_2) at (4,0) {$\bar{x_2}$};
+      \node[draw, circle] (2_21) at (6,0) {$\bar{x_2}$};
+      \node[draw, circle] (2_1) at (5,1) {$\bar{x_1}$};
+
+      \node[draw, circle] (3_2) at (8,0) {$x_2$};
+      \node[draw, circle] (3_21) at (10,0) {$x_2$};
+      \node[draw, circle] (3_1) at (9,1) {$x_1$};
+      
+      \draw (1_1) -- (1_2);
+      \draw (1_1) -- (1_11);
+      \draw (1_2) -- (1_11);
+      
+      \draw (2_1) -- (2_2);
+      \draw (2_2) -- (2_21);
+      \draw (2_21) -- (2_1);
+      
+      \draw (3_1) -- (3_2);
+      \draw (3_2) -- (3_21);
+      \draw (3_21) -- (3_1);
+      
+      \node[] at (12, 0.5) {CLAUSES};
+      
+      
+      
+      \node[draw, circle] (5_1) at (0,4) {$x_1$};
+      \node[draw, circle] (5_11) at (2,4) {$\bar{x_1}$};
+      
+      \draw (5_1) -- (5_11);
+      
+      \node[draw, circle] (6_2) at (8,4) {$x_2$};
+      \node[draw, circle] (6_21) at (10,4) {$\bar{x_2}$};
+      
+      \draw (6_2) -- (6_21);
+      
+      \node[] at (12, 4) {VARS};
+      
+      \draw[red] (1_1) to[out=90,in=-100] (5_1);
+      \draw[red] (1_11) -- (5_1);
+      \draw[red] (3_1) -- (5_1);
+      
+      \draw[red] (2_1) -- (5_11);
+      
+      \draw[red] (1_2) -- (6_2);
+      \draw[red] (3_2) -- (6_2);
+      \draw[red] (3_21) to[out=90,in=-60] (6_2);
+      
+      \draw[red] (2_2) to[out=90,in=-100] (6_21);
+      \draw[red] (2_21) to[out=90,in=-100] (6_21);
+      
+    \end{tikzpicture}\\
+    K-Vertex cover:\\
+    \begin{align*}
+      \phi &= (X_1 \vee x_1 \vee x_2) \wedge \\
+      &(\bar{x_1} \vee \bar{x_2} \vee \bar{x_2}) \wedge\\
+      &(x_1 \vee x_2 \vee x_2)
+    \end{align*}
+    Une solution est de mettre $x_1 = T$ et $x_2 = F$
+  
+\section{Hamiltonian Path}
+  Hamiltonian VS Eulerian\\
+  Euler: ``Bridge of Königsberg''
+  
+  \begin{tikzpicture}
+    \node[draw, circle] (a) at (0,0) {a};
+    \node[draw, circle] (b) at (0,-2) {b};
+    \node[draw, circle] (c) at (2,0) {c};
+    \node[draw, circle] (d) at (2,2) {d};
+    \node[draw, circle] (e) at (4,2) {e};
+    \node[draw, circle] (f) at (4,0) {f};
+    \node[draw, circle] (g) at (2,-2) {g};
+    \node[draw, circle] (h) at (4,-2) {h};
+    \node[draw, circle] (i) at (2,-4) {i};
+    
+    \draw (a) --node[inner sep=0pt, anchor=east]{1} (b);
+    \draw (b) --node[inner sep=0pt, anchor=south]{12} (g);
+    \draw (g) --node[inner sep=0pt, anchor=west]{7} (c);
+    \draw (f) --node[inner sep=0pt, anchor=north]{6} (c);
+    \draw (f) --node[inner sep=0pt, anchor=east]{9} (h);
+    \draw (g) --node[inner sep=0pt, anchor=north]{8} (h);
+    
+  \end{tikzpicture}
+  
+  $$HamPath = \{<G, S, t> \ G\text{ est un graph dirigé avec un chemin Hamiltonien de S a t}\}$$
+  \begin{theoremeBox}
+    Hamiltonian Path est NP-Complet
+  \end{theoremeBox}
+  Pour une formule 3-FNC $\phi$ on peut construire $G, s, t$ tel que $\phi$ est SAT $Leftrightarrow$ G a un chemin Hamiltonien de S à t.
+  
+  \begin{minipage}{0.3\textwidth}
+    \centering
+    \begin{tikzpicture}
+      \node[draw, circle] (s) at (1,10) {S};
+      \node[draw, circle] (x1) at (0,8) {$x_1$};
+      \node[draw, circle] (nx1) at (2,8) {$\bar{x_1}$};
+      
+      \node[draw, circle] (s2) at (1,6) {};
+      \node[draw, circle] (x2) at (0,4) {$x_2$};
+      \node[draw, circle] (nx2) at (2,4) {$\bar{x_2}$};
+
+      \node[draw, circle] (sn) at (1,0) {};
+      \node[draw, circle] (xn) at (0,-2) {$x_n$};
+      \node[draw, circle] (nxn) at (2,-2) {$\bar{x_n}$};
+      \node[draw, circle] (t) at (1,-4) {t};
+      
+      \draw[-> latex] (s) -- (x1);
+      \draw[-> latex] (s) -- (nx1);
+      
+      \draw[-> latex] (x1) -- (s2);
+      \draw[-> latex] (nx1) -- (s2);
+      
+      \draw[-> latex] (s2) -- (x2);
+      \draw[-> latex] (s2) -- (nx2);
+      
+      \draw[-> latex] (sn) -- (xn);
+      \draw[-> latex] (sn) -- (nxn);
+      \draw[-> latex] (xn) -- (t);
+      \draw[-> latex] (nxn) -- (t);
+      
+      \draw[-> latex, dashed] (x2) -- (0.9,2.3);
+      \draw[-> latex, dashed] (nx2) -- (1.1,2.3);
+      
+      \draw[dashed] (1,2) -- (1,0.5);
+      
+    \end{tikzpicture}
+  \end{minipage}
+  Variable Gadgets pour chaque variable $x_i$
+  
+  \begin{tikzpicture}
+    \foreach \x in {0,...,10}
+      \node[draw, circle] (s\x) at (\x,0) {};
+    \foreach \x in {0,...,9} {
+      \draw[-> latex] (s\x) to[out=45,in=135] (\x+1-0.15, 0.1);
+      \draw[-> latex] (s\x) to[out=-45,in=225] (\x+1-0.15, -0.1);
+    }
+  \end{tikzpicture}
+  
+  ``Hard`` direction: $\exists$ Une chemin Hamiltonien $\Rightarrow \exists$ un assignement au problème de SAT.
+
+  
+
+\end{document}
