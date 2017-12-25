@@ -42,11 +42,11 @@
   Corollary 4.18 dans le livre:\\
   Certain langages ne sont pas reconnaissable par une machine de Turing (Turing-recognizable).\\
   \textbf{Idée:}\\
-  L'ensemble des machines des turing est comptable.\\
-  
+  L'ensemble des machines des turing est dénombrable.\\
+
   \textbf{Exemple:}\\
   Tous les mots possibles dans l'alphabet: $\{0, 1\}$:\\
-  
+
   \begin{table}[h]
     \centering
     \begin{tabular}{l|ccccccccc}
@@ -58,46 +58,45 @@
       $M_5$ &                   &                       &                       &                        &                        &                        &                        &                         &
     \end{tabular}
   \end{table}
-  On construit donc ici un table qui définit un langage.  
-  
+  On construit donc ici un table qui définit un langage.
+
 \section{Halting Problem (problème de l'arrêt)}
-  $$A_{TM} = \{ <M, w> | M \text{ est une machine de turing qui accepte } w\}$$ 
-  $M$ = Une machine de turing\\
+  $$A_{TM} = \{ \langle M, w \rangle | M \text{ est une machine de Turing qui accepte } w\}$$
+  $M$ = Une machine de Turing\\
   $w$ = un mot en entrée (input)\\
   Voir le livre, théorème 4.11: le problème $A_{TM}$ est indécidable.\\
-  
+
   \subsection{Preuves}
-    Par contradiction: supposons que $A_{TM}$ est décidable.  Cela signifie qu'il existe une machine $H(<M,w>) = \{\text{Accepte si M accepte w et rejette dans les autres cas}\}$\\
-    On définit ensuite une machine $D$ tel que pour l'entrée $M (\text{une machine de turing})$:
+    Par contradiction: supposons que $A_{TM}$ est décidable. Cela signifie qu'il existe une machine $H(\langle M,w\rangle) = \{\text{Accepte si M accepte w et rejette dans les autres cas}\}$\\
+    On définit ensuite une machine $D$ telle que pour l'entrée $M (\text{une machine de turing})$:
     \begin{enumerate}
-      \item Exécuter H sur l'entrée $<M, <M>>$
-      \item On renvoie l'inverse de H: accepte si $M$ n'accepte pas $<M>$ et rejette si $M$ accepte $<M>$.
+      \item Exécuter H sur l'entrée $\langle M, \langle M\rangle\rangle$
+      \item On renvoie l'inverse de H: accepte si $M$ n'accepte pas $\langle M\rangle$ et rejette si $M$ accepte $\langle M\rangle$.
     \end{enumerate}
-    Enfin, on exécute $D$ sur lui-même: $D(<D>)$.\\
-    Cela signifie que $D$ accepte uniquement s'il n'accepte pas. $\rightarrow$ contradiction
+    Enfin, on exécute $D$ sur lui-même: $D(\langle D\rangle)$.\\
+    Cela signifie que $D$ s'accepte uniquement s'il ne s'accepte pas, ce qui est une contradiction, et donc une telle machine $M$ ne peut exister.
   \\
-  Langage $A$ définit $\bar{A}$ comme étant son complément: $\bar{A} = \{w | w \notin A\}$\\
-  Supposons que $A$ et $\bar{A}$ sont (``recognizable'') reconnaissable.  Donc $A$ et $\bar{A}$ sont aussi décidable.\\
-  \textbf{Preuve}: Posons $M$ et $M'$ sont respectivement reconnaissable pour $A$ et $\bar{A}$.  Construisons un ``décideur'' D pour A en exécutant $M$ et $M'$ en ``parallèle'' (en alternant étape par étape sur $M$ et sur $M'$.\\
+  Pour un langage $A$, on définit $\bar{A}$ comme étant son complément: $\bar{A} = \{w | w \notin A\}$\\
+  Supposons que $A$ et $\bar{A}$ sont (``recognizable'') reconnaissables.  Donc $A$ et $\bar{A}$ sont aussi décidables.\\
+  \textbf{Preuve}: Posons $M$ et $M'$ reconnaissant respectivement $A$ et $\bar{A}$.  Construisons un ``décideur'' $D$ pour $A$ en exécutant $M$ et $M'$ en ``parallèle'' (en alternant étape par étape sur $M$ et sur $M'$).\\
 
   Posons maintenant $A_{TM}$ comme étant indécidable.  Est-il pour autant reconnaissable (``recognizable'') ?\\
   $A_{TM}$ est reconnaissable (preuve: simuler $M$ sur $w$).\\
   On peut également écrire:
   \begin{align*}
-    A \text{ est décidable}\\
-    \Leftrightarrow \text{l'ensemble }A \text{ et } \bar{A} \text{ est reconnaissable}
+    A \text{ est décidable} \Leftrightarrow A \text{ et } \bar{A} \text{ sont reconnaissables}
   \end{align*}
-  $\Rightarrow \bar{A_{TM}}$ n'est pas reconnaissable.\\
-  $$\bar{A_{TM}} = \{<M, w> | w \text{ n'est pas accepté par } M\}$$
+  $\Rightarrow \overline {A_{TM}}$ n'est pas reconnaissable.\\
+  $$\overline {A_{TM}} = \{\langle M, w\rangle | w \text{ n'est pas accepté par } M\}$$
 
 \section{Reductibility (Réduction)}
-  Pour une machine de turing M, noté $L(M)$ décrit le langage reconnu par $M$.
-  $$L(M) = \{w | M \text{ accepte w} \} \in \Sigma^*$$
-  $$REGULAR_{TM} = \{ <M> | M \text{ est une machine de turing et } L(M) \text{ est régulier}\}$$
+  Pour une machine de Turing $M$, $L(M)$ décrit le langage reconnu par $M$.
+  $$L(M) = \{w | M \text{ accepte w} \} \subset \Sigma^*$$
+  $$REGULAR_{TM} = \{ \langle M\rangle | M \text{ est une machine de Turing et } L(M) \text{ est régulier}\}$$
   Rappel d'un langage régulier: qui peut être reconnu par un automate fini. Ce langage est indécidable.\\
   Voir \textbf{livre}, théorème 5.3\\
   \textbf{Preuve}:\\
-    Définissons une Machine de Turing $M_2$ comme une fonction de $M$ (une machine de turing) et $w$ ($\in \Sigma^*$)\\
+    Définissons une Machine de Turing $M_2$ comme une fonction de $M$ (une machine de Turing) et $w$ ($\in \Sigma^*$)\\
     $M_2 = $ pour une certaine entrée x:
     \begin{enumerate}
       \item si x a la forme $0^{n}1^{n}$, on accepte
@@ -114,25 +113,26 @@
   \end{enumerate}
   On a donc réussi à réduire le problème de l'arrêt à ce problème.\\
   Par contradiction, supposons que $REGULAR_{TM}$ est décidable et qu'il existe R, un ``décideur'' pour $REGULAR_{TM}$.\\
-  $S = $ en entrée $<M, w> = $:
+  Soit la machine de Turing $S$ telle que $S = $ en entrée $\langle M, w\rangle$~:
   \begin{enumerate}
     \item Construire $M_2$ pour $M$ et $w$
     \item Exécuter $R$ sur $M_2$ et on accepte si et seulement si $R$ accepte.
   \end{enumerate}
   En faisant cela, on montre que $S$ décide $A_{TM} \rightarrow$ contradiction
-    
+
 \section{Rice's Theorem}
   Chapitre 5 exercice 28\\
-  Posons P comme étant n'importe quel propriété de langage NON-TRIVIAL (NONTRIVIAL).\\
-  \textbf{Théorème}: Déterminer si le langage d'une machine de turing a comme propriété P, est indécidable.\\
-  $$\{<M> | M \text{ est une machine de turing et } L(M) \text{ a une propriété } P\}$$
-  Une propriété trivial: est une propriété sans importance, par exemple une propriété est trivial si tous les langages ou aucun langage ne l'a.\\
-  
+  Posons $P$ comme étant n'importe quelle propriété de langage NON-TRIVIAL (NONTRIVIAL).\\
+  \textbf{Théorème}: Déterminer si le langage d'une machine de Turing a comme propriété $P$, est indécidable.\\
+  $$\{\langle M\rangle | M \text{ est une machine de Turing et } L(M) \text{ a une propriété } P\}$$
+  Une propriété triviale est une propriété sans importance, par exemple une propriété est triviale si tous les langages ou aucun langage ne l'a.\\
+
   \subsection{Démonstration}
     Par contradiction:\\
-    Posons $R_p$ un ``décideur'' pour $L_p$.  
+    Posons $R_P$ un ``décideur'' pour $L_P$.
     \begin{itemize}
-      \item Posons $T_{\varnothing}$ comme une machine de turing qui rejette toutes les possibilités ($L(T_{\varnothing}) = \varnothing$), supposons que $\varnothing \notin P$ (sans perte de généralité).
+      \item Posons $T_{\varnothing}$ comme une machine de Turing qui rejette toutes les possibilités ($L(T_{\varnothing}) = \varnothing$),
+			supposons que $\varnothing \notin P$ (sans perte de généralité).
       \item Posons $T$ comme une machine de turing tel que $L(T) \in P$.\\
     \end{itemize}
     Prenons, $M$, $w$, construit tel que $M_w$: pour l'entrée x:
@@ -148,8 +148,4 @@
       \item Exécuter $R_p$ sur $M_w$ et donner la même réponse.
     \end{enumerate}
     On a donc un ``décideur'' pour le problème de l'arrêt.  Ce qui n'est pas possible.  On a donc une contradiction.
-
-
-  
-
 \end{document}
