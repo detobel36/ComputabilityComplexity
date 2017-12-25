@@ -1,13 +1,14 @@
 \documentclass[a4paper,12pt]{article}
 
+\usepackage[french]{babel}
+\usepackage{commath}
+\usepackage{palatino, eulervm} % Change font
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[french]{babel}
 \usepackage{setspace}
 \usepackage[top=2cm, left=2cm]{geometry}
 \usepackage{graphicx}
 \usepackage{eurosym}
-\usepackage{palatino, eulervm} % Change font
 \usepackage{hyperref}
 \usepackage{mathtools, bm}
 \usepackage{amssymb, bm}
@@ -61,11 +62,11 @@ title=Important}
     \item HAMILTONIAN PATH
     \item SUBSET SUM
   \end{itemize}
-  
+
   \subsection{K-Independant Set in G}
     $\equiv$ CLIQUE in $\overline{G}$\\
-    $\equiv (n-K)$ VERTEX COVER in G 
-    
+    $\equiv (n-K)$ VERTEX COVER in G
+
     \begin{center}
       \begin{tikzpicture}
 	\node[draw, circle, fill=gray] (1) at (0,0) {};
@@ -77,10 +78,10 @@ title=Important}
 	\node[draw, circle] (7) at (3,1) {};
 	\node[draw, circle] (8) at (2,2) {};
 	\node[draw, circle] (9) at (2,0) {};
-	
+
 	\node[draw, circle, fill=gray] (legende) at (0,-3) {};
 	\node[] at (2, -3) {Vertex cover};
-	
+
 	\draw (1) -- (2);
 	\draw (1) -- (3);
 	\draw (4) -- (5);
@@ -92,86 +93,86 @@ title=Important}
 	\draw (6) -- (9);
       \end{tikzpicture}
     \end{center}
-    
+
     \begin{tcolorbox}
       Lemme:\\
       Pour $G = (V, E)$\\
       Si $S \leq V$ est un vertex cover, alors $V_{S}$ est un INDEPENDANT SET
     \end{tcolorbox}
-  
+
   \subsection{SUBSET SUM}
     \begin{align*}
       = &\Big\{ <S, t> | S = \{s_1, s_2, ... s_k\}\\
       &\exists \{y_1, ... y_l\} \subseteq S\\
       &\text{tel que} \sum\limits_{s \in S} s = t \Big\}
     \end{align*}
-  
+
     \begin{theoremeBox}
       SUBSET-SUM est NP-Complet
     \end{theoremeBox}
     \textbf{Preuve:}\\
     Réduction depuis 3 SAT où $x_1 ... x_v$ sont des variables et où $c_1 .. c_n$ sont des clauses (conditions).
-    
+
     \begin{table}[h]
       \centering
       \begin{tabular}{c|c|c|c|c|c|c|c|c|c|c|c|c|}
 	\cline{3-13}
 	\multicolumn{2}{c|}{} & $1$ & $2$ & $3$ & $...$ & $v$ &  & $1$ & $2$ & $3$ & $...$ & $m$ \\ \hline
-	\multicolumn{1}{|c|}{} & $y_1$ & 1 & 0 & 0 & 0 & 0 &  &  & {\color[HTML]{32CB00} \textbf{1}} & 1 &  &  \\ \cline{2-13} 
+	\multicolumn{1}{|c|}{} & $y_1$ & 1 & 0 & 0 & 0 & 0 &  &  & {\color[HTML]{32CB00} \textbf{1}} & 1 &  &  \\ \cline{2-13}
 	\multicolumn{1}{|c|}{\multirow{-2}{*}{$x_1$}} & $z_1$ & 1 & 0 & 0 & 0 & 0 &  &  &  &  &  &  \\ \hline
-	\multicolumn{1}{|c|}{} & $y_2$ & 0 & 1 & 0 & 0 & 0 &  &  & 1 & 0 &  &  \\ \cline{2-13} 
+	\multicolumn{1}{|c|}{} & $y_2$ & 0 & 1 & 0 & 0 & 0 &  &  & 1 & 0 &  &  \\ \cline{2-13}
 	\multicolumn{1}{|c|}{\multirow{-2}{*}{$x_2$}} & $z_2$ & 0 & 1 & 0 & 0 & 0 &  &  &  & {\color[HTML]{FD6864} 1} &  &  \\ \hline
-	\multicolumn{1}{|c|}{} & $y_3$ & 0 & 0 & 1 & 0 & 0 &  &  & 1 &  &  &  \\ \cline{2-13} 
+	\multicolumn{1}{|c|}{} & $y_3$ & 0 & 0 & 1 & 0 & 0 &  &  & 1 &  &  &  \\ \cline{2-13}
 	\multicolumn{1}{|c|}{\multirow{-2}{*}{$x_3$}} & $z_3$ & 0 & 0 & 1 & 0 & 0 &  &  &  &  &  &  \\ \hline
-	\multicolumn{1}{|c|}{} & $g_1$ & 0 & 0 & 0 & 0 & 0 &  & 0 & 0 & 0 & * & 0 \\ \cline{2-13} 
+	\multicolumn{1}{|c|}{} & $g_1$ & 0 & 0 & 0 & 0 & 0 &  & 0 & 0 & 0 & * & 0 \\ \cline{2-13}
 	\multicolumn{1}{|c|}{\multirow{-2}{*}{*}} & $h_i$ & 0 & 0 & 0 & 0 & 0 &  & 0 & 0 & 0 & * & 0 \\ \hline
 	\multicolumn{2}{|c|}{} &  &  &  &  &  &  &  &  &  &  &  \\ \hline
 	\multicolumn{2}{|c|}{$t$} & 1 & 1 & 1 & 1 & 1 &  & 3 & 3 & 3 & 3 & 3 \\ \hline
       \end{tabular}
     \end{table}
-    
+
     \begin{align*}
       C_2 &= (x_1 \vee x_2 \vee x_3)\\
       C_3 &= (x_1 \vee \overline{x_2} \vee x_4)
     \end{align*}
     \textcolor{red}{$C_3$} contient $\overline{X_2}$\\
     \textcolor{green}{$C_2$} contient $\overline{X_1}$\\
-    
+
     *Pour chaque clause/colonne $c_i$, on inclut deux fois le nombre: $0...010...0$ (où le 1 est placé en index i).
-    
+
     \begin{enumerate}
       \item Supposons qu'il existe une instance de SAT:\\
 	  $\rightarrow$ construisons $s'$ comme ceci: $\forall i = 1 ... V$ si $x_i = T$ prenons $y_i$ dans $s'$, $z_i$ dans les autres cas.\\
-	  Jusqu'a ce que cela satisfasse chaque clause où chaque 1, 2 ou 3 littéraux sont égaux à ``True''.\\
+	  Jusqu'à ce que cela satisfasse chaque clause où chaque 1, 2 ou 3 littéraux sont égaux à ``True''.\\
 	  $\forall i = 1...m$:
 	  \begin{itemize}
-	    \item Si $c_i$ a 1 litéral à vrai qui inclut $g_i$ et $h_i$ dans $S'$
-	    \item Si $c_i$ a 2 litéraux à vrai qui inclut $g_i$ seulement.
+	    \item Si $c_i$ a 1 littéral à vrai qui inclut $g_i$ et $h_i$ dans $S'$
+	    \item Si $c_i$ a 2 littéraux à vrai qui inclut $g_i$ seulement.
 	  \end{itemize}
-      \item Supposons qu'il existe $S' \subseteq S$ tel que $\sum S' = t$.  L’assignement est construit tel que:\\
+      \item Supposons qu'il existe $S' \subseteq S$ tel que $\sum S' = t$. L’assignation est construite telle que:\\
 	  $X_i = T \Leftrightarrow y_i \in S' (= F$ dans les autres cas$) \forall i = 1 ... V$\\
-	  Et ceci \textbf{n'est pas un assignement valide} pour SAT
+	  Et ceci \textbf{n'est pas une assignation valide} pour SAT.
     \end{enumerate}
-    
-  
+
+
 \section{Programmation dynamique}
   Algorithme pour SUBSET-SUM\\
   $x[i]$ est un nombre dans $S$ et $t$ est la somme a calculer.\\
-  
+
   \textbf{Table T}\\
     $T[i][j] = True \Leftrightarrow$ il existe un sous-ensemble du premier nombre $i$ où la somme est $j$\\
     $i = 1 ... |S|$\\
-    $j = 0 ... \sum S$\\
-    
+    $j = 0 ... \sum_{x \in S}x$\\
+
   \textbf{Algorithme}\\
-    Initialisons $T$, appliqué pour $i = 1 ... |S|, j = 0 ... t$.\\
+    Initialisons $T$. Pour $i = 1 ... |S|, j = 0 ... t$~:\\
     $T[i][j] \leftarrow T[i-1][j] \vee T[i-1][j-x[i]]$\\
-    $Return T[|S|][t]$\\
-    n a la taille de l'entrée (par exemple: le nombre de bits).\\
+    $Return T[\abs S][t]$.\\
+    $n$ a la taille de l'entrée (par exemple: le nombre de bits).\\
     La complexité de l'algorithme DP pour le problème SUBSET SUM: $|S| \times t$\\
-    
+
     $n \simeq \big( \sum\limits_{x_i \in S} \log_2 x_i \big) + \log_2 t$\\
-    
+
     \subsection{Exemple}
       \begin{align*}
 	S &= \{5\ 000\ 000\ 000, 939\ 000\ 000, 333\ 212\}\\
@@ -179,11 +180,11 @@ title=Important}
       \end{align*}
       Complexité: $n \leq 4 \times 10 \times 4 = 160$\\
       $|S| \times t \geq 4 \times 5 \times 10^9$
-  
-  
+
+
 \section{3-COLORING}
-  Prenons un simple graphe non dirigé $G$, peut-on colorer ses points en 3 couleurs tel que deux point adjacent n'ont pas la même couleur.
-  
+  Prenons un simple graphe non dirigé $G$, peut-on colorier ses points en 3 couleurs tel que deux point adjacents n'ont pas la même couleur~?
+
   \begin{center}
       \begin{tikzpicture}
 	\node[draw, circle, fill=green] (1) at (0,0) {};
@@ -194,7 +195,7 @@ title=Important}
 	\node[draw, circle, fill=red] (6) at (2,2) {};
 	\node[draw, circle, fill=blue] (7) at (3,3) {};
 	\node[draw, circle, fill=green] (8) at (3,1) {};
-	
+
 	\draw (1) -- (2);
 	\draw (1) -- (3);
 	\draw (2) -- (3);
@@ -208,25 +209,25 @@ title=Important}
 	\draw (7) -- (8);
       \end{tikzpicture}
     \end{center}
-    
+
   \subsection{Exercice 7.27}
     Prouver que 3-COLORING est NP-Complet
-    
+
     \begin{center}
       \begin{tikzpicture}
 	\node[draw, circle] (T) at (0,0) {T};
 	\node[draw, circle] (F) at (1,1) {F};
 	\node[draw, circle, fill=gray] (plein) at (2,0) {\_};
 	\node[] at (1, -0.5) {Palette};
-	
+
 	\node[draw, circle] (x1) at (4,0) {};
 	\node[draw, circle] (x2) at (5,0) {};
 	\node[] at (4.5, -0.5) {Variable};
-	
+
 	\draw (T) -- (F);
 	\draw (T) -- (plein);
 	\draw (plein) -- (F);
-	
+
 	\draw (x1) -- (x2);
 	\draw (plein) to[out=45,in=135] (x1);
 	\draw (plein) to[out=90,in=135] (x2);
@@ -237,37 +238,37 @@ title=Important}
 	\node[draw, circle] (1) at (2,1) {};
 	\node[draw, circle] (2) at (1,0) {};
 	\node[draw, circle] (3) at (3,0) {};
-	
+
 	\node[draw, circle] (4) at (3,-1) {};
 	\node[draw, circle] (5) at (1,-1) {};
-	
+
 	\node[] at (-1, 0) {OR-Gadget};
-	
+
 	\draw (1) -- (2);
 	\draw (1) -- (3);
 	\draw (3) -- (2);
-	
+
 	\draw (3) -- (4);
 	\draw (2) -- (5);
       \end{tikzpicture}
     \end{center}
-    
+
     Il y a plusieurs manière de représenter le ``OR-GADGET'':\\
     \begin{minipage}{0.49\textwidth}
       \begin{tikzpicture}
 	\node[draw, circle] (1) at (2,1) {\textcolor{green}{T}};
 	\node[draw, circle] (2) at (1,0) {\textcolor{blue}{N}};
 	\node[draw, circle] (3) at (3,0) {?};
-	
+
 	\node[draw, circle] (4) at (3,-1) {\textcolor{red}{F}};
 	\node[draw, circle] (5) at (1,-1) {\textcolor{red}{F}};
-	
+
 	\node[] at (-0.5, 0) {Pas OK};
-	
+
 	\draw (1) -- (2);
 	\draw (1) -- (3);
 	\draw (3) -- (2);
-	
+
 	\draw (3) -- (4);
 	\draw (2) -- (5);
       \end{tikzpicture}
@@ -277,16 +278,16 @@ title=Important}
 	\node[draw, circle] (1) at (2,1) {\textcolor{green}{T}};
 	\node[draw, circle] (2) at (1,0) {\textcolor{red}{F}};
 	\node[draw, circle] (3) at (3,0) {\textcolor{blue}{N}};
-	
+
 	\node[draw, circle] (4) at (3,-1) {\textcolor{red}{F}};
 	\node[draw, circle] (5) at (1,-1) {\textcolor{green}{T}};
-	
+
 	\node[] at (-0.5, 0) {OK};
-	
+
 	\draw (1) -- (2);
 	\draw (1) -- (3);
 	\draw (3) -- (2);
-	
+
 	\draw (3) -- (4);
 	\draw (2) -- (5);
       \end{tikzpicture}
@@ -296,16 +297,16 @@ title=Important}
 	\node[draw, circle] (1) at (2,1) {\textcolor{green}{T}};
 	\node[draw, circle] (2) at (1,0) {\textcolor{blue}{N}};
 	\node[draw, circle] (3) at (3,0) {\textcolor{red}{F}};
-	
+
 	\node[draw, circle] (4) at (3,-1) {\textcolor{green}{T}};
 	\node[draw, circle] (5) at (1,-1) {\textcolor{green}{T}};
-	
+
 	\node[] at (-0.5, 0) {OK};
-	
+
 	\draw (1) -- (2);
 	\draw (1) -- (3);
 	\draw (3) -- (2);
-	
+
 	\draw (3) -- (4);
 	\draw (2) -- (5);
       \end{tikzpicture}
@@ -315,135 +316,135 @@ title=Important}
 	\node[draw, circle] (1) at (2,1) {\textcolor{red}{F}};
 	\node[draw, circle] (2) at (1,0) {\textcolor{green}{T}};
 	\node[draw, circle] (3) at (3,0) {\textcolor{blue}{N}};
-	
+
 	\node[draw, circle] (4) at (3,-1) {\textcolor{red}{F}};
 	\node[draw, circle] (5) at (1,-1) {\textcolor{red}{F}};
-	
+
 	\node[] at (-0.5, 0) {OK};
-	
+
 	\draw (1) -- (2);
 	\draw (1) -- (3);
 	\draw (3) -- (2);
-	
+
 	\draw (3) -- (4);
 	\draw (2) -- (5);
       \end{tikzpicture}
     \end{minipage}\\
-    
-    Réduction depuis 3 STA: 3 CNF formule $\phi$, variables: $x_1, ... x_l$:
-    
+
+    Réduction depuis 3 SAT: 3 CNF formule $\phi$, variables: $x_1, ... x_l$:
+
     \textbf{Preuve}:
     \begin{center}
       \begin{tikzpicture}
 	\node[draw, circle] (T) at (0,0) {\textcolor{green}{T}};
 	\node[draw, circle] (F) at (2,0) {\textcolor{red}{F}};
 	\node[draw, circle] (N) at (1,-1) {\textcolor{blue}{N}};
-	
+
 	\node[] at (-1, -3) {$x_1$};
 	\node[draw, circle] (x1) at (0,-3) {};
 	\node[draw, circle] (x11) at (2,-3) {};
-	
+
 	\node[] at (-1, -4) {$x_2$};
 	\node[draw, circle] (x2) at (0,-4) {};
 	\node[draw, circle] (x21) at (2,-4) {};
-	
+
 	\node[] at (1, -5) {...};
-	
+
 	\node[] at (-1, -6) {$x_l$};
 	\node[draw, circle] (xl) at (0,-6) {};
 	\node[draw, circle] (xl1) at (2,-6) {};
-	
-	
+
+
 	\draw (T) -- (F);
 	\draw (T) -- (N);
 	\draw (N) -- (F);
-	
+
 	\draw (x1) -- (x11);
 	\draw (x2) -- (x21);
 	\draw (xl) -- (xl1);
-	
+
 	\draw (N) to[out=-160,in=90] (x1);
 	\draw (N) to[out=-20,in=90] (x11);
-	
+
 	\draw (N) to[out=-175,in=140] (x2);
 	\draw (N) to[out=-15,in=50] (x21);
-	
+
 	\draw (N) to[out=-175,in=160] (xl);
 	\draw (N) to[out=-15,in=30] (xl1);
       \end{tikzpicture}
     \end{center}
-    
-    Par exemple: $(x_1 \vee \overline{x_2} \vee x_l$
-    
+
+    Par exemple: $(x_1 \vee \overline{x_2} \vee x_l)$
+
     \begin{center}
       \begin{tikzpicture}
 	\node[draw, circle] (T) at (0,0) {\textcolor{green}{T}};
 	\node[draw, circle] (F) at (2,0) {\textcolor{red}{F}};
 	\node[draw, circle] (N) at (1,-1) {\textcolor{blue}{N}};
-	
+
 	\node[] at (-1, -3) {$x_1$};
 	\node[] at (3, -3) {$\overline{x_1}$};
 	\node[draw, circle] (x1) at (0,-3) {};
 	\node[draw, circle] (x11) at (2,-3) {};
-	
+
 	\node[] at (-1, -4) {$x_2$};
 	\node[] at (3, -4) {$\overline{x_2}$};
 	\node[draw, circle] (x2) at (0,-4) {};
 	\node[draw, circle] (x21) at (2,-4) {};
-	
+
 	\node[] at (1, -5) {...};
-	
+
 	\node[] at (-1, -6) {$x_l$};
 	\node[] at (3, -6) {$\overline{x_l}$};
 	\node[draw, circle] (xl) at (0,-6) {};
 	\node[draw, circle] (xl1) at (2,-6) {};
-	
-	
+
+
 	\draw (T) -- (F);
 	\draw (T) -- (N);
 	\draw (N) -- (F);
-	
+
 	\draw (x1) -- (x11);
 	\draw (x2) -- (x21);
 	\draw (xl) -- (xl1);
-	
+
 	\draw (N) to[out=-160,in=90] (x1);
 	\draw (N) to[out=-20,in=90] (x11);
-	
+
 	\draw (N) to[out=-175,in=140] (x2);
 	\draw (N) to[out=-15,in=50] (x21);
-	
+
 	\draw (N) to[out=-175,in=160] (xl);
 	\draw (N) to[out=-15,in=30] (xl1);
-	
+
 	\node[draw, circle] (y1) at (5, -2) {};
 	\node[draw, circle] (y2) at (5.7,-2.5) {};
 	\node[draw, circle] (y3) at (5,-3) {};
-	
+
 	\draw (y1) -- (y2);
 	\draw (y3) -- (y2);
 	\draw (y1) -- (y3);
-	
+
 	\node[draw, circle] (z1) at (6, -4) {};
 	\node[draw, circle] (z2) at (6.7,-4.5) {};
 	\node[draw, circle] (z3) at (6,-5) {};
-	
+
 	\draw (z1) -- (z2);
 	\draw (z3) -- (z2);
 	\draw (z1) -- (z3);
-	
+
 	\draw (x1) to[out=45,in=180] (y1);
 	\draw (x21) to[out=30,in=180] (y3);
-	
+
 	\draw (y2) to[out=0,in=180] (z1);
 	\draw (xl) to[out=30,in=180] (z3);
 	\draw (z2) to[out=10,in=20] (N);
 	\draw (z2) to[out=0,in=0] (F);
       \end{tikzpicture}
     \end{center}
-    
+
     $\exists 3-coloring \Leftrightarrow y$ est satisfaisable.
-    
+
     \begin{enumerate}
       \item Supposons que $\phi$ est satisfaisable: \\
 	  $\exists$ un SAT associé a $f : \{x_1, ... x_n\} \rightarrow \{T, F\}$. Colorer la palette en \textcolor{red}{rouge} \textcolor{green}{vert} \textcolor{blue}{bleu} comme indiqué.\\
@@ -452,18 +453,19 @@ title=Important}
 	    \node[draw, circle, fill=green] (1) at (0, 0) {};
 	    \node[draw, circle, fill=red] (2) at (1, 0) {};
 	    \draw (1) -- (2);
-	    
+
 	    \node[draw, circle, fill=red] (3) at (0, -1) {};
 	    \node[draw, circle, fill=green] (4) at (1, -1) {};
 	    \draw (3) -- (4);
-	    
+
 	    \node[] at (0, -1.5) {$x_i$};
 	    \node[] at (1, -1.5) {$\overline{x_i}$};
 	  \end{tikzpicture}
+
 	  Si $f(x_i) = T$ dans les autres cas\\
 	  $\forall$ ``OR-GADGET'': utiliser la couleur A ou B pour le ``second'' ou gadgets et colorer A, B ou C pour le ``premier''.
       \item Supposons $\exists$ un 3-COLORING colorer en \textcolor{red}{rouge} (F) \textcolor{green}{vert} (T) \textcolor{blue}{bleu} (N).\\
-	  Mettre $x_i$ a vrai si: 
+	  Mettre $x_i$ a vrai si:
 	  \begin{tikzpicture}
 	    \node[draw, circle, fill=green] (1) at (0, 0) {};
 	    \node[draw, circle, fill=red] (2) at (1, 0) {};
@@ -473,9 +475,6 @@ title=Important}
 	    \node[draw, circle, fill=red] (1) at (0, 0) {};
 	    \node[draw, circle, fill=green] (2) at (1, 0) {};
 	    \draw (1) -- (2);
-	  \end{tikzpicture} 
+	  \end{tikzpicture}
     \end{enumerate}
-
-
-  
 \end{document}
