@@ -7,7 +7,7 @@
 \usepackage[top=2cm, left=2cm]{geometry}
 \usepackage{graphicx}
 \usepackage{eurosym}
-\usepackage{palatino} % Change font
+\usepackage{palatino, eulervm} % Change font
 \usepackage{hyperref}
 \usepackage{mathtools, bm}
 \usepackage{amssymb, bm}
@@ -39,7 +39,7 @@
 \newpage
 
 \section{Théorème de Rice}
-  Pour $P$ n'importe quel propriété ``non trivial'' d'un langage d'une machine de turing:
+  Pour $P$ n'importe quelle propriété ``non triviale'' d'un langage d'une machine de Turing:
   \begin{align*}
     \exists M_1 &\text{ tel que } L(M_1) \in P\\
     \wedge \exists M_2 &\text{ tel que } L(M_2) \notin P
@@ -50,39 +50,39 @@
    \item DFA (machine de turing déterministe)
    \item Non déterministes
    \item Power set construction: DFA (équivalent à NFA)
-   \item Langage régulier (``Regular languages''), est l'ensemble des langages reconnu par un automate définit
+   \item Langage régulier (``Regular languages''), est l'ensemble des langages reconnus par un automate déterministe
    \itemsep1em
-   \item Machines de turing / Church-T thesis
+   \item Machines de Turing / Church-T thesis
    \itemsep0em
-   \item Multitape Turing Machine / Machine de turing non déterministe
-   \item Décidabilité VS reconnaissable (``recognizability``) $\Leftrightarrow \exists$ un énumérateur (''enumerator``)
+   \item Multitape Turing Machine / Machine de Turing non déterministe
+   \item Décidabilité VS reconnaissable (``recognizable``) $\Leftrightarrow \exists$ un énumérateur (''enumerator``)
   \end{itemize}
-  
+
   Un langage A est:
   \begin{align*}
-    \text{reconnaissable (''recognizabile``) } &\Leftrightarrow \exists M: L(M) = A\\
-    \text{décisable } &\Leftrightarrow \exists M: \text{ M est un ''decider`` } L(M) = A
+    \text{reconnaissable (''recognizable``) } &\Leftrightarrow \exists M: L(M) = A\\
+    \text{décidable } &\Leftrightarrow \exists M: \text{ M est un ''decider`` } L(M) = A
   \end{align*}
-  
+
   \begin{itemize}
     \item Cantor's Diagonalization argument:\\
       $\Rightarrow \exists$ langage L $\in$ Reconnaissable
-    \item Problème de l'arret (Halting problem)\\
-      $A_{TM} = \{<M, w> | M \text{ est une machine de turing qui accepte } w\}$\\
-      Reconnaissable et pas décidable $\bar{A_{TM}}$ n'est pas reconnaissable.
+    \item Problème de l'arrêt (Halting problem)\\
+      $A_{TM} = \{\langle M, w\rangle | M \text{ est une machine de Turing qui accepte } w\}$\\
+      Reconnaissable et pas décidable $\overline {A_{TM}}$ n'est pas reconnaissable.
     \item Théorème de Rice.
   \end{itemize}
 
 \section{Un problème indécidable simple}
   Voir livre chapitre 5.2\\
-  $$\Bigg\{\Big[\frac{ab}{abab}\Big], \Big[\frac{b}{a}\Big], \Big[\frac{aba}{b}\Big], \Big[\frac{aa}{a}\Big]\Bigg\}$$
+  $$\left\{\left[\frac{ab}{abab}\right], \left[\frac{b}{a}\right], \left[\frac{aba}{b}\right], \left[\frac{aa}{a}\right]\right\}$$
   (Emil) Post correspondence problem\\
   Théorème 5.15 PCP est indécidable (Post correspondence problem)\\
-  
+
   $$M, w \in \Sigma^* \rightarrow (Q, \Sigma, \Gamma, \delta, q_0, q_{accept}, q_{reject})$$
   Construit une instance P du problème PCP.\\
   P (''has a match``) à une correspondance $\Leftrightarrow$ M accepte w.
-  
+
   \begin{enumerate}
     \item Les premiers dominos sont:
       \begin{align*}
@@ -90,17 +90,17 @@
 	&\# q_0 w_1 w_2 ... w_n \#
       \end{align*}
     \item Pour chaque $a, b \in \Gamma$ et $q, r \in Q$ où $q \neq q_{reject}$\\
-      Si $\delta(q, a) = (r, b, R)$ on ajouter $\Big[\frac{qa}{br}\Big]$
+      Si $\delta(q, a) = (r, b, R)$ on ajoute $\left[\frac{qa}{br}\right]$
     \item $a, b, c \in \Gamma; q, r \in Q$\\
-      Si $\delta(q, a) = (r, b, L)$ on ajouter $\Big[\frac{cqa}{rcb}\Big]$
-    \item Pour chaque $a \in \Gamma$, on ajouter $\Big[\frac{a}{a}\Big]$
-    \item Ajouter: $\Big[\frac{\#}{\#}\Big]$ et $\Big[\frac{\#}{\textvisiblespace \_ \#}\Big]$
-    \item $\Big[\frac{a q_{accept}}{q_{accept}}\Big] \forall a \in \Gamma$ et $\Big[\frac{q_{accept} a}{q_{accept}}\Big]$
-    \item $\Big[\frac{q_{accept} \# \#}{\#}\Big]$
+      Si $\delta(q, a) = (r, b, L)$ on ajoute $\left[\frac{cqa}{rcb}\right]$
+    \item Pour chaque $a \in \Gamma$, on ajoute $\left[\frac{a}{a}\right]$
+    \item Ajouter: $\left[\frac{\#}{\#}\right]$ et $\left[\frac{\#}{\textvisiblespace \_ \#}\right]$
+    \item $\left[\frac{a q_{accept}}{q_{accept}}\right] \forall a \in \Gamma$ et $\left[\frac{q_{accept} a}{q_{accept}}\right]$
+    \item $\left[\frac{q_{accept} \# \#}{\#}\right]$
   \end{enumerate}
-  
-  \textbf{Assumption:} une correspondance doit commencer par le premier domino (Modified PCP)\\
-  
+
+  \textbf{Hypothèse:} une correspondance doit commencer par le premier domino (Modified PCP)\\
+
   \textbf{Exemple:}
   \begin{align*}
     > &\#\\
@@ -124,7 +124,7 @@
     > &\# q_0 0 1 0 0 \# 2 q_7 1 0 0 \# q_1 2 3 0 0 \# \\
     &\\
   \end{align*}
-  
+
   Comment supprimer la condition de M PCP ?  Posons:
   \begin{align*}
     \circledast w &= * u_1 * u_2 * u_3 ... * u_n\\
@@ -132,24 +132,22 @@
     \circledast u \circledast &= * u_1 * u_2 * u_3 ... * u_n *
   \end{align*}
   On remplace donc:
-  $$\Bigg\{ \Big[\frac{t_1}{b_1}\Big] , \Big[\frac{t_2}{b_2}\Big], ... \Big[\frac{t_k}{b_k}\Big] \Bigg\}$$
+  $$\left\{ \left[\frac{t_1}{b_1}\right] , \left[\frac{t_2}{b_2}\right], \ldots, \left[\frac{t_k}{b_k}\right] \right\}$$
   Par:
-  $$\Bigg\{ \Big[\frac{\circledast t_1}{\circledast b_1 \circledast}\Big], \Big[\frac{\circledast t_2}{b_2 \circledast}\Big] ..., \Big[\frac{\circledast t_k}{b_k \circledast}\Big] \Bigg\}$$
-  Avec cela ils doivent donc être en premier.  Mais on doit en plus rajouter donc:
-  $$\Big[ \frac{\circledast \Diamond}{\Diamond} \Big]$$
-  
-  
+  $$\left\{ \left[\frac{\circledast t_1}{\circledast b_1 \circledast}\right], \left[\frac{\circledast t_2}{b_2 \circledast}\right], \ldots,
+	\left[\frac{\circledast t_k}{b_k \circledast}\right] \right\}$$
+  Avec cela ils doivent donc être en premier.  Mais on doit en plus rajouter~:
+  $$\left[ \frac{\circledast \Diamond}{\Diamond} \right].$$
+
+
 \section{Reducibility (Mapping/Many-One)}
-  \textbf{Définition:} $f : \Sigma^* \rightarrow \Sigma^*$ est exécutable (computable) si et seulement s'il existe une machine de turing M tel que pour n'importe quel entrée w, M s'arrête avec seulement $f(w)$ sur son stack/ruban (tape)\\
-  
-  \textbf{Définition:} Un langage A est réductible dans un langage B, si il existe une fonction f exécutable (''computable``) tel que
-  $$\forall w \in \Sigma^* | f(w) \in B \Leftrightarrow w \in A$$
-  Notons que $A \leq_m B$\\
-  
-  \textbf{Théorème:} Si $A \leq_m B$ et $B$ est décidable, alors $A$ est décidable.\\
-  
-  \textbf{Théorème:} Si $A \leq_m B$ et $B$ est reconnaissable (''recognizable''), alors $A$ est reconnaissable.
-  
-  
-  
+  \textbf{Définition:} $f : \Sigma^* \rightarrow \Sigma^*$ est exécutable (computable) si et seulement s'il existe une machine de Turing $M$ telle que pour n'importe quel entrée w, M s'arrête avec seulement $f(w)$ sur son stack/ruban (tape)\\
+
+  \textbf{Définition:} Un langage A est réductible dans un langage B, si il existe une fonction f exécutable (''computable``) telle que
+  $$\forall w \in \Sigma^* : f(w) \in B \Leftrightarrow w \in A.$$
+  On note cela~: $A \leq_M B$\\
+
+  \textbf{Théorème:} Si $A \leq_M B$ et $B$ est décidable, alors $A$ est décidable.\\
+
+  \textbf{Théorème:} Si $A \leq_M B$ et $B$ est reconnaissable (''recognizable''), alors $A$ est reconnaissable.
 \end{document}

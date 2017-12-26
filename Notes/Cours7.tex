@@ -7,7 +7,7 @@
 \usepackage[top=2cm, left=2cm]{geometry}
 \usepackage{graphicx}
 \usepackage{eurosym}
-\usepackage{palatino} % Change font
+\usepackage{palatino, eulervm} % Change font
 \usepackage{hyperref}
 \usepackage{mathtools, bm}
 \usepackage{amssymb, bm}
@@ -53,14 +53,14 @@ title=Important}
 
 \section{P vs NP}
   \begin{defBox}
-    NP est un ensemble de langage vérifiable en temps polynomial.
+    NP est l'ensemble des langages vérifiables en temps polynomial.
   \end{defBox}
   \begin{theoremeBox}
-    Un langage appartient à NP $\Leftrightarrow$ il peut être décidé dans une machine de turing non déterministe à temps polynomial.
+    Un langage appartient à NP $\Leftrightarrow$ il peut être décidé dans une machine de Turing non déterministe en temps polynomial.
   \end{theoremeBox}
 
-  $$\text{SUBSET SUM} = \Big\{<S, t> | S = \{x_1, ..., x_k\} \text{ et pour certain } Y \subseteq \{1, ... k\}, \sum\limits_{j \in Y} x_j = t \Big\}$$
-  
+  $$\text{SUBSET\_SUM} = \left\{\langle S, t\rangle | S = \{x_1, ..., x_k\} \text{ et il existe } Y \subseteq \{1, ... k\}, \sum\limits_{j \in Y} x_j = t \right\}.$$
+
   \subsection{Problème du CLIQUE}
     \begin{tikzpicture}
       \node[draw, circle] (0) at (0,0) {};
@@ -69,7 +69,7 @@ title=Important}
       \node[draw, circle] (3) at (1,0.5) {};
       \node[draw, circle] (4) at (1,2) {};
       \node[draw, circle] (5) at (2,1) {};
-      
+
       \draw (0) -- (1);
       \draw (0) -- (3);
       \draw (1) -- (2);
@@ -80,8 +80,10 @@ title=Important}
       \draw (3) -- (5);
       \draw (2) -- (4);
     \end{tikzpicture}\\
-    Le problème CLIQUE peut dont être définit comme étant $= \big\{<G, K> |$ G est un graphe non dirigé avec k-clique$\big\}$\\
-    
+    Une clique est un sous-graphe d'un graphe non-dirigé formant un graphe complet (toute paire de nœuds est relié par exactement une arête).
+		Le problème CLIQUE peut dont être définit comme étant~:
+		\[CLIQUE = \left\{\langle G, K\rangle | G \text{ est un graphe non dirigé avec une $k$-clique}\right\}.\]
+
     \begin{minipage}[c]{0.49\linewidth}
       \begin{center}
 	Exemple valide:\\
@@ -92,7 +94,7 @@ title=Important}
 	  \node[draw, circle, fill=green!20!gray] (3) at (1,0.5) {};
 	  \node[draw, circle] (4) at (1,2) {};
 	  \node[draw, circle] (5) at (2,1) {};
-	  
+
 	  \draw (0) -- (1);
 	  \draw (0) -- (3);
 	  \draw (1) -- (2);
@@ -115,7 +117,7 @@ title=Important}
 	  \node[draw, circle, fill=red] (3) at (1,0.5) {};
 	  \node[draw, circle, fill=red] (4) at (1,2) {};
 	  \node[draw, circle] (5) at (2,1) {};
-	  
+
 	  \draw (0) -- (1);
 	  \draw (0) -- (3);
 	  \draw (1) -- (2);
@@ -130,21 +132,21 @@ title=Important}
     \end{minipage}
     \\
     \begin{defBox}
-     Une fonction $f: \Sigma^{*} \rightarrow \Sigma^{*}$ est calculable dans un temps polynomial s'il existe une machine de turing tel qu'elle s'arrête avec seulement $f(w)$ sur son ruban avec une entrée w et s'exécute en un temps polynomial.
+     Une fonction $f: \Sigma^{*} \rightarrow \Sigma^{*}$ est calculable en temps polynomial s'il existe une machine de Turing qui s'arrête avec seulement $f(w)$
+		 sur son ruban pour une entrée $w$ et s'exécute en un temps polynomial.
     \end{defBox}
-    
+
     \begin{defBox}
-      Un langage A est \underline{réductible en temps polynomial} dans un langage B, écrivons:
-      $$A \leq_p B$$
-      S'il existe une fonction $f$ s'exécutant en un temps polynimal tel que:
-      $$\forall w, w \in A \Leftrightarrow f(w) \in B$$
+      Un langage A est \underline{réductible en temps polynomial} dans un langage B, noté $A \leq_p B$
+      s'il existe une fonction $f$ s'exécutant en un temps polynomial telle que~:
+      $$\forall w \in \Sigma^* : w \in A \Leftrightarrow f(w) \in B.$$
     \end{defBox}
 
     \begin{importantBox}
-      Si $A \leq_p B$ et $B \in P$, alors $A \in P$
+      Si $A \leq_p B$ et $B \in P$, alors $A \in P$.
     \end{importantBox}
-    
-    \subsubsection{Exemple: Problème de 3 SAT}
+
+    \subsubsection{Exemple: Problème de 3-SAT}
       \begin{align*}
 	\phi = &(x_1 \vee x_1 \vee x_2) \wedge \\
 	&(\overline{x_1} \vee \overline{x_2} \vee \overline{x_2}) \wedge \\
@@ -156,57 +158,57 @@ title=Important}
 	x_2 \leftarrow T
       \end{align*}
       3-CNF formule (il s'agit d'une forme normal conjonctive)
-      $$3\ SAT = \big\{\phi | \phi \text{ est une formule boolean satisfaisant 3-CNF } \big\}$$
+      $$3\ SAT = \big\{\phi | \phi \text{ est une formule booléenne satisfaisant 3-CNF } \big\}$$
       $3\ SAT \in NP$
-    
+
       \begin{theoremeBox}
 	$3\ SAT \leq_p$ CLIQUE
       \end{theoremeBox}
-    
+
     \subsubsection{Passage de 3-SAT à CLIQUE}
       On va donc devoir trouver un algorithme pouvant transformer un problème ``3 SAT'' en un problème de type ``K-CLIQUE'' en un temps polynomial.  Cela permettra donc de résoudre ``3 SAT'' avec seulement un algorithme de résolution de type ``K-CLIQUE''.\\
       Un ``litéral'' est simplement une variable ou son inverse (ex: $x_i$ ou $\overline{x_i}$).
-      
+
       \begin{center}
 	\begin{tikzpicture}
 	  \node[draw, circle] (1x1) at (0,4) {$x_1$};
 	  \node[draw, circle] (1x12) at (0,2) {$x_1$};
 	  \node[draw, circle] (1x2) at (0,0) {$x_2$};
-	  
+
 	  \node[draw, circle] (2nx1) at (2,6) {$\overline{x_1}$};
 	  \node[draw, circle] (2nx2) at (4,6) {$\overline{x_2}$};
 	  \node[draw, circle] (2nx22) at (6,6) {$\overline{x_2}$};
-	  
+
 	  \node[draw, circle] (3nx1) at (8,4) {$\overline{x_1}$};
 	  \node[draw, circle] (3x2) at (8,2) {$x_2$};
 	  \node[draw, circle] (3x22) at (8,0) {$x_2$};
-	  
+
 	  \draw (1x1) -- (2nx2);
 	  \draw (1x1) -- (2nx22);
 	  \draw (1x1) -- (3x2);
 	  \draw (1x1) -- (3x22);
-	  
+
 	  \draw (1x12) -- (2nx2);
 	  \draw (1x12) -- (2nx22);
 	  \draw (1x12) -- (3x2);
 	  \draw (1x12) -- (3x22);
-	  
+
 	  \draw (1x2) -- (2nx1);
 	  \draw (1x2) -- (3nx1);
 	  \draw (1x2) -- (3x2);
 	  \draw (1x2) -- (3x22);
-	  
+
 	  \draw (2nx1) -- (3x2);
 	  \draw (2nx1) -- (3x22);
 	  \draw (2nx1) -- (3nx1);
-	  
+
 	  \draw (2nx2) -- (3nx1);
-	  
+
 	  \draw (2nx22) -- (3nx1);
 	\end{tikzpicture}\\
       \end{center}
       $K = 3$, il s'agit donc du nombre de clause.\\
-      On peut donc écrire que si $\phi$ est satisfait, G as un k-clique.\\
+      On peut donc écrire que si $\phi$ est satisfait, alors G a une $k$-clique.\\
       \textbf{Une solution pourrait être:}\\
       \begin{minipage}{0.7\textwidth}
 	\begin{center}
@@ -214,36 +216,36 @@ title=Important}
 	    \node[draw, circle] (1x1) at (0,4) {$x_1$};
 	    \node[draw, circle] (1x12) at (0,2) {$x_1$};
 	    \node[draw, circle, white, fill=green!20!gray] (1x2) at (0,0) {$x_2$};
-	    
+
 	    \node[draw, circle, white, fill=green!20!gray] (2nx1) at (2,6) {$\overline{x_1}$};
 	    \node[draw, circle] (2nx2) at (4,6) {$\overline{x_2}$};
 	    \node[draw, circle] (2nx22) at (6,6) {$\overline{x_2}$};
-	    
+
 	    \node[draw, circle, white, fill=green!20!gray] (3nx1) at (8,4) {$\overline{x_1}$};
 	    \node[draw, circle] (3x2) at (8,2) {$x_2$};
 	    \node[draw, circle] (3x22) at (8,0) {$x_2$};
-	    
+
 	    \draw (1x1) -- (2nx2);
 	    \draw (1x1) -- (2nx22);
 	    \draw (1x1) -- (3x2);
 	    \draw (1x1) -- (3x22);
-	    
+
 	    \draw (1x12) -- (2nx2);
 	    \draw (1x12) -- (2nx22);
 	    \draw (1x12) -- (3x2);
 	    \draw (1x12) -- (3x22);
-	    
+
 	    \draw[color=green!20!gray,ultra thick] (1x2) -- (2nx1);
 	    \draw[color=green!20!gray,ultra thick] (1x2) -- (3nx1);
 	    \draw (1x2) -- (3x2);
 	    \draw (1x2) -- (3x22);
-	    
+
 	    \draw (2nx1) -- (3x2);
 	    \draw (2nx1) -- (3x22);
 	    \draw[color=green!20!gray,ultra thick] (2nx1) -- (3nx1);
-	    
+
 	    \draw (2nx2) -- (3nx1);
-	    
+
 	    \draw (2nx22) -- (3nx1);
 	  \end{tikzpicture}\\
 	\end{center}
@@ -255,9 +257,9 @@ title=Important}
 	  &(\mathbf{\overline{x_1}} \vee x_2 \vee x_2)
 	\end{align*}
       \end{minipage}
-      
+
       Si l'on prend un littéral vrai sur chacune des lignes, on aura une solution au k-clique.
-      
+
 \section{NP-Compleet}
   \begin{defBox}
     Un langage B est ``NP-complet'' si et seulement si:
@@ -266,11 +268,11 @@ title=Important}
       \item Pour chaque $A \in NP, A \leq_p B$
     \end{enumerate}
   \end{defBox}
-  
+
   \subsection{Cook-Levin Théorème}
-    Définissons SAT comme étant un problème retournant un boolean pour toutes les formules sous forme normal conjonctive.\\
+    Définissons SAT comme étant un problème retournant un booléen pour toutes les formules sous forme normal conjonctive.\\
     SAT est NP-Complet.
-    
+
     \begin{enumerate}
       \item Si B est NP-complet et $B \in P$, alors $P = NP$
       \item Si B est NP-complet et $B \leq_p C$ (pour $C \in NP$), alors C est NP-Complet.
@@ -282,13 +284,13 @@ title=Important}
       \Rightarrow &A \leq_p C
     \end{align*}
 
-    
+
     \begin{defBox}
       Un langage B est NP-Hard (NP-Dur ou NP-Difficile) si et seulement si:\\
       pour tout $A \in NP, A \leq_p B$
     \end{defBox}
     Considérons $A \in NP$.  Il existe donc une machine de turing ``N'' non déterministe qui peut décider du langage A en un temps polynomial.  Supposons en temps $\leq n^k$ pour un certain $k = O(1)$
-    
+
     \begin{align*}
       &\# q_0 w_1 w_2 ... w_n\ \_\ \_\ ... \_\ \_\#\\
       &\# a q_1 w_2 ... w_n\ \_\ \_\ ... \_\ \_\#\\
@@ -297,9 +299,9 @@ title=Important}
     Où on peut compter $n^k$ lignes sur une longueur de $n^k$\\
     $$C = Q \cup \Gamma \cup \{\#\}$$
     Variables: $X_{i, j, s} | i,j = 1...n^k, S \in C $
-    
+
     $$\phi = \phi_{cell} \wedge \phi_{start} \wedge \phi_{move} \wedge \phi_{accept}$$
-    
+
     \begin{align*}
       \phi_{start} =& X_{1, 1, \#} \wedge X_{1, 2, q_0} \wedge X_{1, 3, w_1} \wedge ... \wedge X_{1, n+2, w_n} \wedge X_{1, n+3, \_} \wedge ... \wedge X_{1, n^k-1, \_} \wedge X_{1, n^k, \#}\\
       \phi_{cell} =& \bigwedge\limits_{1 \leq i, j \leq n^k} \Big[ \big(\bigvee\limits_{S \in C} X_{i, j, s} \big) \wedge \bigwedge\limits_{s, t \in C | s \neq t} \big( \overline{X_{i, j, s}} \vee \overline{X_{i, j, t}} \big) \Big]\\
@@ -310,16 +312,16 @@ title=Important}
     \end{align*}
     Où une fenêtre légal est définit par:\\
     $\bigvee\limits_{a_1, a_2, ... a_6 \text{ est une fenêtre légal}} \big(X_{i, j-1, a_1} \wedge X_{i, j, a_2} \wedge X_{i, j+1, a_3} \wedge ... \big)$
-    
+
     \begin{table}[h]
       \centering
       \begin{tabular}{cccc}
-			      & j-1                       & j                         & j+1                       \\ \cline{2-4} 
-      \multicolumn{1}{c|}{i}   & \multicolumn{1}{c|}{$a_1$} & \multicolumn{1}{c|}{$a_2$} & \multicolumn{1}{c|}{$a_3$} \\ \cline{2-4} 
-      \multicolumn{1}{c|}{i+1} & \multicolumn{1}{c|}{$a_4$} & \multicolumn{1}{c|}{$a_5$} & \multicolumn{1}{c|}{$a_6$} \\ \cline{2-4} 
+			      & j-1                       & j                         & j+1                       \\ \cline{2-4}
+      \multicolumn{1}{c|}{i}   & \multicolumn{1}{c|}{$a_1$} & \multicolumn{1}{c|}{$a_2$} & \multicolumn{1}{c|}{$a_3$} \\ \cline{2-4}
+      \multicolumn{1}{c|}{i+1} & \multicolumn{1}{c|}{$a_4$} & \multicolumn{1}{c|}{$a_5$} & \multicolumn{1}{c|}{$a_6$} \\ \cline{2-4}
       \end{tabular}
     \end{table}
-    
+
     \begin{table}[h]
       \centering
       \begin{tabular}{|c|c|c|}
@@ -329,9 +331,9 @@ title=Important}
       \end{tabular}
     \end{table}
     est légal.
-    
+
     $(q_1, a, R) \in \delta(q_0, w_1)$
-    
+
     \begin{table}[h]
       \centering
       \begin{tabular}{|c|c|c|}
@@ -341,6 +343,6 @@ title=Important}
       \end{tabular}
     \end{table}
     $d \neq b$ et $e \neq c$ et $\in \Gamma$ n'est pas légal
-    
-  
+
+% Ouille, compliqué </3
 \end{document}
