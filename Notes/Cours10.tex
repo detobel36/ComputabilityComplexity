@@ -22,7 +22,7 @@
 \pagestyle{fancy}
 % Head
 \fancyhead[L]{}
-\fancyhead[C]{\includegraphics[scale=0.4]{../logo.jpg}}
+\fancyhead[C]{\includegraphics[scale=0.4]{logo.jpg}}
 \fancyhead[R]{}
 % Footer
 \fancyfoot[C]{}
@@ -72,7 +72,7 @@ title=Important}
     \textit{Théorème 8.5}
     \begin{theoremeBox}
       Pour toute fonction $f : \mathbb N \to \mathbb N$ telle que $\forall n \in \mathbb N : f(n) \geq n$~:\\
-      $NSPACE(f(n)) \subseteq SPACE(f^2(n))$, où $f^2(n) = (f(n))^2$, à ne pas confondre avec $f(f(n))$.  % @detobel36 Dans ce cas-ci, f^2(n) veut dire f(f(n)) ou (f(n))^2 ?
+      $NSPACE(f(n)) \subseteq SPACE(f^2(n))$, où $f^2(n) = (f(n))^2$, à ne pas confondre avec $f(f(n))$.
     \end{theoremeBox}
 
     \textbf{Preuve du théorème de Savitch}:\\
@@ -82,8 +82,9 @@ title=Important}
     \textbf{Question} Peut-on aller de la configuration $c_1$ à la configuration $c_2$ avec un maximum de $t$ étapes.\\
     Supposons sans perte de généralité, qu'il n'existe qu'une seule configuration acceptante
 		(supprimer le contenu du tape et déplacer la tête sur la première case).\\
-
-    $$CANYIELD(c_{start}, c_{accept}, 2^{df(n)}) \text{ simule } N$$  % @detobel36 C'est quoi df(n) ?
+  
+    Pour une constante $d$:
+    $$CANYIELD(c_{start}, c_{accept}, 2^{df(n)}) \text{ simule } N$$
     \begin{enumerate}
       \item Si $t = 1$, est-ce que N peut atteindre $c_2$ depuis $c_1$ en une étape.  (cfr ``legal windows``)
       \item Dans les autres cas, pour chaque configuration $c_m$ de N en utilisant $space\ f(n)$:
