@@ -1,5 +1,5 @@
 # Notes de cours de Complexity and Computability
-:warning: Toutes les informations écrites ici ne sont peut-être pas justes. C'est une prise de notes faite pendant le cours et non retravaillée par la suite.
+:warning: Toutes les informations écrites ici ne sont peut-être pas justes. C'est une prise de notes faite pendant le cours et non retravaillée par la suite.           
 :gb: Ces notes contiennent beaucoup de franglais dont j'ai le secret...  Le but premier était de prendre note en français :fr:
 
 ### Aide/Erreur
