@@ -37,7 +37,7 @@
 \newpage
 
 \section{Introduction}
-  C'est donc un cours de math, permettant de classer les problèmes, leur complexité, ... Il s'agit de la suite du cours d'``informatique fondamentale``.
+  C'est donc un cours de math, permettant de classer les problèmes, leurs complexités, ... Il s'agit de la suite du cours d'``informatique fondamentale``.
 
   \subsection{Référence du cours}
     \begin{itemize}
@@ -53,7 +53,7 @@
       \item \textbf{How much resources are ''required`` to solve a problem ?}
       \item Parfois deux problèmes sont très différent mais en résolvant un des deux, on peut très facilement solutionner le problème en changeant peu l'algorithme.
       \item \textbf{Mathematical Treatment}\\
-	Il y a une certaine formalisme à avoir pour pouvoir caractériser, classer, ... les problèmes.  Il y a différent niveau de langages.  Il ne faut pas se satisfaire de comprendre en général mais bien en profondeur.
+	Il y a un certaine formalisme à avoir pour pouvoir caractériser, classer, ... les problèmes.  Il y a différent niveau de langages.  Il ne faut pas se satisfaire de comprendre en général mais bien en profondeur.
       \item \textbf{Compilateurs, langages de programmation}
       \item \textbf{Optimisation: problème linéaire (LP), algorithme génétique, problème de satisfaisabilité, plus court chemin}
       \item \textbf{P vs NP (traveling problem (voyageur de commerce))}
@@ -113,24 +113,27 @@
   Référence: chapitre 1.2 du livre\\
   Les automates finis sont déterministes.\\
   $\epsilon$ = ''empty'' symbol
+  
+  \begin{figure}[h!]
+    \centering
+    \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm,
+		      semithick]
+      \tikzstyle{every state}=[fill=gray!30!white,draw=none,text=black]
+      \tikzstyle{accepting}=[fill=gray!30!white,draw=black,text=black]
 
-  \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm,
-                    semithick]
-    \tikzstyle{every state}=[fill=gray!30!white,draw=none,text=black]
-    \tikzstyle{accepting}=[fill=gray!30!white,draw=black,text=black]
+      \node[initial,state] (1) {$q_1$};
+      \node[state] (2) [right of=1] {$q_2$};
+      \node[state] (3) [right of=2] {$q_3$};
+      \node[state,accepting] (4) [right of=3] {$q_4$};
 
-    \node[initial,state] (1) {$q_1$};
-    \node[state] (2) [right of=1] {$q_2$};
-    \node[state] (3) [right of=2] {$q_3$};
-    \node[state,accepting] (4) [right of=3] {$q_4$};
-
-    \path (1) edge [loop below] node {0, 1} (1)
-	  (1) edge node {1} (2)
-	  (2) edge node {0, $\epsilon$} (3)
-	  (3) edge node {1} (4);
-	  (4) edge [loop below] node {0, 1} (4);
-  \end{tikzpicture}
-
+      \path (1) edge [loop below] node {0, 1} (1)
+	    (1) edge node {1} (2)
+	    (2) edge node {0, $\epsilon$} (3)
+	    (3) edge node {1} (4);
+	    (4) edge [loop below] node {0, 1} (4);
+    \end{tikzpicture}
+  \end{figure}
+  
   Dans un automate non déterministe le $\delta$ ne sera pas définit de la même manière.  Il sera écrit:
   $$\delta : Q \times \Sigma_{\epsilon} \rightarrow \mathcal P(Q)$$
   $P(Q)$ liste d'états dans Q (set of states in Q)\\
