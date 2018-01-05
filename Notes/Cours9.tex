@@ -16,6 +16,7 @@
 \usepackage{color}
 \usepackage{tcolorbox}
 \usepackage{xcolor}
+\usepackage{subcaption}
 \usepackage{tikz}
 \usetikzlibrary{arrows,automata}
 
@@ -52,6 +53,29 @@ title=Important}
 
 \maketitle
 \newpage
+
+\begin{figure}[h!]
+  \begin{subfigure}[b]{0.4\textwidth}
+      \centering
+      \begin{align}
+	S &\rightarrow friendship \\
+	  &\rightarrow friend \\
+	  &\rightarrow relationship \\
+	  &\rightarrow friendly
+      \end{align}
+      \caption{Unmodified grammar}
+      \label{fig:unmodifiedgrammar1}
+  \end{subfigure}%
+\end{figure}
+
+% \begin{figure}
+%     \centering
+%     \begin{subfigure}[t]{0.333\textwidth}
+%         \centering
+%         Ceci est un test
+%     \end{subfigure}
+% \end{figure}
+
 
 \section{NP-Complete problems}
   \begin{itemize}
