@@ -41,8 +41,8 @@
 
 \section{Turing machine suite}
   \subsection{Non déterministe}
-    $$\delta: Q \times \Gamma \rightarrow \mathcal P ( Q \times \times \Gamma \times \{L, R\})$$
-    \textbf{Voir livre}: théorème 3.16: Chaque NTM as un équivalent DTM.\\
+    $$\delta: Q \times \Gamma \rightarrow \mathcal P ( Q \times \Gamma \times \{L, R\})$$
+    \textbf{Voir livre}: théorème 3.16: chaque NTM as un équivalent DTM.\\
     On va donc faire un parcours de l'arbre en largeur (et non en profondeur).
 
   \subsection{Reconnaitre un langage de Turing}
@@ -122,17 +122,14 @@
 
     \item les nombres rationnels ($\mathbb{Q}$) sont dénombrable ?\\
       $\rightarrow$ Oui (pour cela il faut juste mettre un ordre.  Pour se faire, on peut parcourir un tableau à double entrées représentant les numérateurs et dénominateurs. Il suffirait donc de simplement définir l'ordre de lecture qui logiquement se ferait plutôt en diagonal).  % M'ouais, rigueur :-°
-			De manière un brin formelle, $\mathbb N \to \mathbb Q : m \mapsto \frac m1$ est une injection de $\mathbb N$ dans $\mathbb Q$, donc $\abs {\mathbb N} \leq \abs {\mathbb Q}$.
-			De même $\mathbb Q \to \mathbb Z \times \mathbb N : \frac ab \mapsto (a, b)$ est une injection de $\mathbb Q$ dans $\mathbb Z \times \mathbb N$,
-			donc $\abs {\mathbb Q} \leq \abs {\mathbb Z \times \mathbb N}$. Or $\abs {\mathbb Z} = \mathbb N$, et $\abs {\mathbb N^2} = \abs {\mathbb N}$. Donc~:
-			\[\abs {\mathbb N} \leq \abs {\mathbb Q} \leq \abs {\mathbb Z \times \mathbb N} = \abs {\mathbb N \times \mathbb N} = \abs {\mathbb N^2} = \abs {\mathbb N}.\]
-			On en déduit que toutes les quantités ici sont égales, et donc $\abs {\mathbb Q} = \mathbb N$. (Pour démontrer cela rigoureusement, il faudrait expliciter
-			les bijections $\mathbb Z \to \mathbb N$ et $\mathbb N^2 \to \mathbb N$ et les composer; puisqu'une composée de bijections est une bijection, on a finalement
-			une bijection de $\mathbb Q$ dans $\mathbb N$.)
+      De manière un brin formelle, $\mathbb N \to \mathbb Q : m \mapsto \frac m1$ est une injection de $\mathbb N$ dans $\mathbb Q$, donc $\abs {\mathbb N} \leq \abs {\mathbb Q}$.
+      De même $\mathbb Q \to \mathbb Z \times \mathbb N : \frac ab \mapsto (a, b)$ est une injection de $\mathbb Q$ dans $\mathbb Z \times \mathbb N$, donc $\abs {\mathbb Q} \leq \abs {\mathbb Z \times \mathbb N}$. Or $\abs {\mathbb Z} = \mathbb N$, et $\abs {\mathbb N^2} = \abs {\mathbb N}$. Donc~: 
+      \[\abs {\mathbb N} \leq \abs {\mathbb Q} \leq \abs {\mathbb Z \times \mathbb N} = \abs {\mathbb N \times \mathbb N} = \abs {\mathbb N^2} = \abs {\mathbb N}.\]
+      On en déduit que toutes les quantités ici sont égales, et donc $\abs {\mathbb Q} = \mathbb N$. (Pour démontrer cela rigoureusement, il faudrait expliciter les bijections $\mathbb Z \to \mathbb N$ et $\mathbb N^2 \to \mathbb N$ et les composer; puisqu'une composée de bijections est une bijection, on a finalement une bijection de $\mathbb Q$ dans $\mathbb N$.)
 
     \item $\mathbb{Z}$ est dénombrable ?\\
       $\rightarrow$ Oui (nombre négatif étant des paires, nombre positif étant des impaires. De cette manière on compte tous les nombres)~:
-			\[\varphi : \mathbb Z \to \mathbb N : n \mapsto \begin{cases}2n+1 &\text{ si } n \in \mathbb N\\-2n &\text{ sinon.}\end{cases}\]
+      \[\varphi : \mathbb Z \to \mathbb N : n \mapsto \begin{cases}2n+1 &\text{ si } n \in \mathbb N\\-2n &\text{ sinon.}\end{cases}\]
   \end{itemize}
 
   \subsection{Cantor's Diagonal}
