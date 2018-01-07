@@ -58,8 +58,7 @@ title=Important}
 
   \subsection{Exemple}
     $$\delta(q_1, a) = \{(q_1, b, R)\}$$
-    Qui signifie que si on lit $a$ sur le ruban, on écrit $b$ en $q_1$ et on se déplace vers la droite. On a donc ici une machine non déterministe, donc un ensemble de srotie,
-		mais dans les faits cet ensemble n'a qu'un seul élément. Cette transition est donc déterministe.
+    Qui signifie que si on lit $a$ sur le ruban, on écrit $b$ en $q_1$ et on se déplace vers la droite. On a donc ici une machine non déterministe, donc un ensemble de sortie, mais dans les faits cet ensemble n'a qu'un seul élément. Cette transition est donc déterministe.
 
     $$\delta(q_1, b) = \{(q_2, c, L), (q_2, a, R)\}$$
     Si on lit b sur le tape, on peut soit écrite $c$ sur $q_2$ et se déplacer vers la gauche ou aller à droite en écrivant $a$ sur $q_2$.
@@ -133,7 +132,7 @@ title=Important}
 
 
 \section{3-SAT}
-  Forme normale conjonctive se note ``CNF'' en anglais.  La formule de la FNC-4 s'écrit:
+  Forme normale conjonctive se note ``CNF'' en anglais.  La formule de la FNC-3 s'écrit:
   $$\bigwedge\limits_{j} \big(l_{i_1, j} \vee l_{i_2, j} \vee l_{i_3, j} \big)$$
   On appelle donc ce qu'il y a dans le grand ``ET'' une clause, et chaque élément de cette close s'appelle un littéral et est soit une variable, soit la négation d'une variable.
 
